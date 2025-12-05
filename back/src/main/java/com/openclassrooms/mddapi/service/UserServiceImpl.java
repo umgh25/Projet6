@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 @Slf4j
@@ -43,7 +42,7 @@ public class UserServiceImpl implements UserService{
         Optional<User> user = this.userRepository.findByEmail(email);
         if (user.isPresent()) {
             log.error("User is already registered");
-            throw new UserAlreadyRegisteredException();
+            throw new UserAlreadyRegisteredException("User already registered");
         }
     }
 }

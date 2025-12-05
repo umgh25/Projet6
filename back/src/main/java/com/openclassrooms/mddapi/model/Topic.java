@@ -1,8 +1,14 @@
 package com.openclassrooms.mddapi.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+import lombok.*;
+import java.util.List;
 
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Topic {
 
     @Id
@@ -14,4 +20,6 @@ public class Topic {
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Subscription> subscriptions;
 }

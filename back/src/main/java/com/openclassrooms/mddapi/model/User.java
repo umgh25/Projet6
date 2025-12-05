@@ -5,9 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.List;
-
 
 @Data
 @Builder
@@ -28,12 +27,6 @@ public class User {
     @Column(nullable = false, unique = true)
     private String userName;
 
-    @ManyToMany
-    @JoinTable(
-            name = "subscription",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "topic_id")
-    )
-    private List<Topic> topics;
-
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Subscription> subscriptions;
 }

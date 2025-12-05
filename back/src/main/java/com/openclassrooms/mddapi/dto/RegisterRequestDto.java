@@ -1,23 +1,19 @@
 package com.openclassrooms.mddapi.dto;
 
-
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 
 @Data
 public class RegisterRequestDto {
 
-    @NotBlank
+    @NotBlank(message = "Le nom d'utilisateur est obligatoire")
     private String userName;
 
-    @NotBlank
-    @Email
+    @NotBlank(message = "L'email est obligatoire")
+    @Email(message = "Email invalide")
     private String email;
 
-    @NotBlank
+    @NotBlank(message = "Le mot de passe est obligatoire")
     private String password;
-
-
 }
