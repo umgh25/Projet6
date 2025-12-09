@@ -1,10 +1,18 @@
 package com.openclassrooms.mddapi.model;
 
-import javax.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import jakarta.persistence.*;
 import java.util.List;
 
-
+@Data
+@Builder
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
 
     @Id
@@ -19,12 +27,6 @@ public class User {
     @Column(nullable = false, unique = true)
     private String userName;
 
-    @ManyToMany
-    @JoinTable(
-            name = "subscription",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "topic_id")
-    )
-    private List<Topic> topics;
-
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Subscription> subscriptions;
 }
