@@ -1,0 +1,49 @@
+#register {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#logo img {
+  max-width: 100%;
+  height: auto;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+/*form div {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  padding: 15px 0;
+}
+
+form div input {
+  width: 250px;
+  height: 50px;
+  border-radius: 5px;
+}*/
+
+#button {
+  width: 128px;
+  height: 40px;
+  border-radius: 8px;
+  opacity: 1;
+  background: hsla(252, 45%, 58%, 1);
+}
+
