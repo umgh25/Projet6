@@ -20,6 +20,8 @@
 
 	<properties>
 		<java.version>17</java.version>
+		<mapstruct.version>1.6.3</mapstruct.version>
+		<lombok.version>1.18.32</lombok.version>
 	</properties>
 
 	<dependencies>
@@ -36,7 +38,7 @@
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 
-		<!-- MySQL Driver for Spring Boot 3 -->
+		<!-- MySQL -->
 		<dependency>
 			<groupId>com.mysql</groupId>
 			<artifactId>mysql-connector-j</artifactId>
@@ -50,13 +52,13 @@
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 
-		<!-- JWT + OAuth2 Resource Server -->
+		<!-- JWT / OAuth2 Resource Server -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
 		</dependency>
 
-		<!-- Validation (Jakarta) -->
+		<!-- Validation -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
@@ -66,7 +68,15 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
+			<version>${lombok.version}</version>
 			<optional>true</optional>
+		</dependency>
+
+		<!-- MapStruct -->
+		<dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct</artifactId>
+			<version>${mapstruct.version}</version>
 		</dependency>
 
 		<!-- Tests -->
@@ -76,7 +86,7 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- .env support -->
+		<!-- .env -->
 		<dependency>
 			<groupId>me.paulschwarz</groupId>
 			<artifactId>spring-dotenv</artifactId>
@@ -87,10 +97,42 @@
 
 	<build>
 		<plugins>
+
+			<!-- Compiler -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.11.0</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+
+					<annotationProcessorPaths>
+
+						<!-- MapStruct processor -->
+						<annotationProcessorPath>
+							<groupId>org.mapstruct</groupId>
+							<artifactId>mapstruct-processor</artifactId>
+							<version>${mapstruct.version}</version>
+						</annotationProcessorPath>
+
+						<!-- Lombok processor -->
+						<annotationProcessorPath>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<version>${lombok.version}</version>
+						</annotationProcessorPath>
+
+					</annotationProcessorPaths>
+				</configuration>
+			</plugin>
+
+			<!-- Spring Boot -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
 		</plugins>
 	</build>
 
