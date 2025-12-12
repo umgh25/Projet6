@@ -38,6 +38,11 @@ public class UserServiceImpl implements UserService{
         return this.userRepository.save(userToSave);
     }
 
+    @Override
+    public Optional<User> findUserByMail(String email) {
+        return this.userRepository.findByEmail(email);
+    }
+
     private void isUserAlreadyRegister(String email) throws UserAlreadyRegisteredException {
         Optional<User> user = this.userRepository.findByEmail(email);
         if (user.isPresent()) {
