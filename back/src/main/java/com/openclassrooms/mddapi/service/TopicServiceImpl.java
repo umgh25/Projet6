@@ -8,7 +8,6 @@ import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.repository.TopicRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.BadRequestException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,7 +28,7 @@ public class TopicServiceImpl implements TopicService {
     @Override
     public List<TopicDto> findAll() throws ResourceNotFoundException {
 
-        User userLogged = userService.findUserByMail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(ResourceNotFoundException::new);
+        User userLogged = userService.getLoggedUser();
 
         List<Topic> topics = this.topicRepository.findAll();
 
@@ -53,7 +52,7 @@ public class TopicServiceImpl implements TopicService {
     @Override
     public List<UserTopicsSubscribedDto> getSubscribedTopicsByUser() throws ResourceNotFoundException {
         log.info("Try to retrieve topics subscribed by a user");
-        User userLogged = userService.findUserByMail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(ResourceNotFoundException::new);
+        User userLogged = userService.getLoggedUser();
 
         List<Topic> topics = this.topicRepository.findAll();
 
@@ -77,8 +76,8 @@ public class TopicServiceImpl implements TopicService {
 
         log.info("Try to subscribe to topic with id {}", topicId);
 
-        User userLogged = userService.findUserByMail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(ResourceNotFoundException::new);
-        Topic topic = this.topicRepository.findById(topicId).orElseThrow(ResourceNotFoundException::new);
+        User userLogged = userService.getLoggedUser();
+        Topic topic = getTopicById(topicId);
 
 
         boolean hasAlreadySubscribed = userLogged.getTopics().contains(topic);
@@ -98,8 +97,8 @@ public class TopicServiceImpl implements TopicService {
 
         log.info("Try to unsubscribe to topic with id {}", topicId);
 
-        User userLogged = userService.findUserByMail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(ResourceNotFoundException::new);
-        Topic topic = this.topicRepository.findById(topicId).orElseThrow(ResourceNotFoundException::new);
+        User userLogged = userService.getLoggedUser();
+        Topic topic = getTopicById(topicId);
 
 
         boolean hasAlreadySubscribed = userLogged.getTopics().contains(topic);
@@ -114,4 +113,9 @@ public class TopicServiceImpl implements TopicService {
         log.info("User {} unsubscribed from topic {} successfully", userLogged.getUserName(), topicId);
 
     }
+
+    private Topic getTopicById(Long topicId) throws ResourceNotFoundException {
+        return this.topicRepository.findById(topicId).orElseThrow(ResourceNotFoundException::new);
+    }
+
 }

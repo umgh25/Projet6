@@ -28,7 +28,7 @@ public class TopicController {
     }
 
     @PostMapping("/{topicId}")
-    ResponseEntity<?> subscribe(@PathVariable Long topicId) throws ResourceNotFoundException, BadRequestException {
+    public ResponseEntity<Void> subscribe(@PathVariable Long topicId) {
         log.info("POST api/topic/{} called -> start the process to subscribe topic", topicId);
         this.topicService.subscribeTopic(topicId);
         log.info("Process terminated successfully");
