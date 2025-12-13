@@ -15,6 +15,6 @@ public interface TopicService {
 
     void subscribeTopic(Long topicId) throws ResourceNotFoundException, BadRequestException;
 
-    void unsubscribeTopic(Long topicId);
+    void unsubscribeTopic(Long topicId) throws ResourceNotFoundException, BadRequestException;
 
 }

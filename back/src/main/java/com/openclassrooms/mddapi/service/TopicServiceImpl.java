@@ -77,7 +77,24 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
-    public void unsubscribeTopic(Long topicId) {
+    public void unsubscribeTopic(Long topicId) throws ResourceNotFoundException, BadRequestException {
+
+        log.info("Try to unsubscribe to topic with id {}", topicId);
+
+        User userLogged = userService.findUserByMail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(ResourceNotFoundException::new);
+        Topic topic = this.topicRepository.findById(topicId).orElseThrow(ResourceNotFoundException::new);
+
+
+        boolean hasAlreadySubscribed = userLogged.getTopics().contains(topic);
+
+        if (!hasAlreadySubscribed) {
+            log.error("User has not subscribed");
+            throw new BadRequestException();
+        }
+
+        userLogged.getTopics().remove(topic);
+        this.userService.updateUser(userLogged);
+        log.info("User {} unsubscribed from topic {} successfully", userLogged.getUserName(), topicId);
 
     }
 }

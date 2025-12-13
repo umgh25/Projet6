@@ -34,4 +34,12 @@ public class TopicController {
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping("/{topicId}")
+    ResponseEntity<?> unsubscribe(@PathVariable Long topicId) throws ResourceNotFoundException, BadRequestException {
+        log.info("DELETE api/topic/{} called -> start the process to unsubscribe topic", topicId);
+        this.topicService.unsubscribeTopic(topicId);
+        log.info("Process terminated successfully");
+        return ResponseEntity.ok().build();
+    }
+
 }
