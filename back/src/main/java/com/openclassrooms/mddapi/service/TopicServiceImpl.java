@@ -52,6 +52,7 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public List<UserTopicsSubscribedDto> getSubscribedTopicsByUser() throws ResourceNotFoundException {
+        log.info("Try to retrieve topics subscribed by a user");
         User userLogged = userService.findUserByMail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(ResourceNotFoundException::new);
 
         List<Topic> topics = this.topicRepository.findAll();

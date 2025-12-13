@@ -27,11 +27,6 @@ public class TopicController {
         return this.topicService.findAll();
     }
 
-    @GetMapping("/subscribed")
-    List<UserTopicsSubscribedDto> findSubscribedTopics() throws ResourceNotFoundException {
-        return this.topicService.getSubscribedTopicsByUser();
-    }
-
     @PostMapping("/{topicId}")
     ResponseEntity<?> subscribe(@PathVariable Long topicId) throws ResourceNotFoundException, BadRequestException {
         log.info("POST api/topic/{} called -> start the process to subscribe topic", topicId);
@@ -46,6 +41,14 @@ public class TopicController {
         this.topicService.unsubscribeTopic(topicId);
         log.info("Process terminated successfully");
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/subscribed")
+    List<UserTopicsSubscribedDto> findSubscribedTopics() throws ResourceNotFoundException {
+        log.info("POST api/topic/subscribed called -> start the process to retrieve topics subscribed by a user");
+        List<UserTopicsSubscribedDto> userTopicsSubscribedDtos =  this.topicService.getSubscribedTopicsByUser();
+        log.info("Process terminated successfully, {} topics retrieved", userTopicsSubscribedDtos.size());
+        return userTopicsSubscribedDtos;
     }
 
 }
