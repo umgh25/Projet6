@@ -16,10 +16,10 @@ VALUES (1,1),
        (1,4),
        (2,1);
 
-INSERT IGNORE INTO `post` (id, title, description, created_at, user_id, topic_id)
-VALUES (1, 'Java POO', 'Java POO written by john', '2025-01-01', 1, 1),
-       (2, 'Java other', 'Java POO other arti written by alice', '2025-01-01',2,1),
-       (3, 'Python', 'Python written by john', '2025-01-01', 1, 2);
+INSERT IGNORE INTO `post` (id, title, content, created_at, user_id, topic_id)
+VALUES (1, 'Java POO', 'Lorem ipsum dolor sit amet. Eum rerum officiis a quasi minima id eveniet praesentium id doloribus dolorem qui veniam magnam et corrupti quidem. Id sapiente nihil et ipsa voluptatem qui dolore minima. Et suscipit itaque non quis galisum ut blanditiis saepe ut voluptatem dolorum ut laboriosam aspernatur.', '2025-01-03', 1, 1),
+       (2, 'Java other', 'Lorem ipsum dolor sit amet. Eum rerum officiis a quasi minima id eveniet praesentium id doloribus dolorem qui veniam magnam et corrupti quidem. Id sapiente nihil et ipsa voluptatem qui dolore minima. Et suscipit itaque non quis galisum ut blanditiis saepe ut voluptatem dolorum ut laboriosam aspernatur.', '2025-01-02',2,1),
+       (3, 'Python', 'Lorem ipsum dolor sit amet. Eum rerum officiis a quasi minima id eveniet praesentium id doloribus dolorem qui veniam magnam et corrupti quidem. Id sapiente nihil et ipsa voluptatem qui dolore minima. Et suscipit itaque non quis galisum ut blanditiis saepe ut voluptatem dolorum ut laboriosam aspernatur.', '2025-01-01', 1, 2);
 
 INSERT IGNORE INTO `comment` (id, content, created_at, user_id, post_id)
 VALUES (1, 'first comment for Java POO article', '2025-01-01', 1, 1),

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -29,6 +30,11 @@ public class TopicServiceImpl implements TopicService {
         this.userService = userService;
     }
 
+    /**
+     * Retrieve list of all topics
+     * @return list of topicDto
+     * @throws ResourceNotFoundException if user not found
+     */
     @Override
     public List<TopicDto> findAll() throws ResourceNotFoundException {
 
@@ -39,6 +45,12 @@ public class TopicServiceImpl implements TopicService {
         return mapTopicsToDtosWithSubscriptionStatus(topics, userLogged);
     }
 
+    /**
+     * Map all topics to dto including user subscription status
+     * @param topics list of all topics
+     * @param userLogged user logged into the application
+     * @return List of topicDto including user subscription status
+     */
     private List<TopicDto> mapTopicsToDtosWithSubscriptionStatus(List<Topic> topics, User userLogged) {
         return topics.stream().map(topic -> {
             boolean hasAlreadySubscribed = subscriptionRepository.existsByUserAndTopic(userLogged, topic);
@@ -52,6 +64,11 @@ public class TopicServiceImpl implements TopicService {
         }).toList();
     }
 
+    /**
+     * Retrieve all topics a user is subscribed to
+     * @return list of UserTopicsSubscribedDto
+     * @throws ResourceNotFoundException if user not found
+     */
     @Override
     public List<UserTopicsSubscribedDto> getSubscribedTopicsByUser() throws ResourceNotFoundException {
         log.info("Try to retrieve topics subscribed by a user");
@@ -62,6 +79,13 @@ public class TopicServiceImpl implements TopicService {
         return mapTopicsToDtos(topics, userLogged);
     }
 
+    /**
+     * Filter the list of all topics to keep only those for
+     * which a user is subscribed and maps them to dto
+     * @param topics List of all topics
+     * @param userLogged user logged into the application
+     * @return list of topicDto for which a user is subscribed
+     */
     private List<UserTopicsSubscribedDto> mapTopicsToDtos(List<Topic> topics, User userLogged) {
         return topics.stream().filter(
                 topic -> subscriptionRepository.existsByUserAndTopic(userLogged, topic)
@@ -74,6 +98,12 @@ public class TopicServiceImpl implements TopicService {
         ).toList();
     }
 
+    /**
+     * Allow subscribing to a topic
+     * @param topicId topic's id
+     * @throws ResourceNotFoundException if user or topic not found
+     * @throws BadRequestException if user is already subscribed
+     */
     @Override
     @Transactional
     public void subscribeTopic(Long topicId) throws ResourceNotFoundException, BadRequestException {
@@ -98,6 +128,12 @@ public class TopicServiceImpl implements TopicService {
         log.info("User {}'s subscription to the topic {} has been successfully added", userLogged.getUserName(), topicId);
     }
 
+    /**
+     * Allow unsubscribing from a topic
+     * @param topicId topic'id
+     * @throws ResourceNotFoundException if user or topic not found
+     * @throws BadRequestException if user is not subscribed
+     */
     @Override
     @Transactional
     public void unsubscribeTopic(Long topicId) throws ResourceNotFoundException, BadRequestException {
@@ -115,6 +151,11 @@ public class TopicServiceImpl implements TopicService {
 
         subscriptionRepository.delete(subscription);
         log.info("User {} unsubscribed from topic {} successfully", userLogged.getUserName(), topicId);
+    }
+
+    @Override
+    public Optional<Topic> findTopicById(Long topicId) {
+        return this.topicRepository.findById(topicId);
     }
 
     private Topic getTopicById(Long topicId) throws ResourceNotFoundException {

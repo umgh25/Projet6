@@ -1,10 +1,12 @@
 package com.openclassrooms.mddapi.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Data
 @Entity
 public class Post {
 
@@ -14,7 +16,6 @@ public class Post {
 
     private String title;
 
-    private String description;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
