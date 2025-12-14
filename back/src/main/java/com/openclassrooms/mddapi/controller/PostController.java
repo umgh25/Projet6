@@ -1,13 +1,14 @@
 package com.openclassrooms.mddapi.controller;
 
+import com.openclassrooms.mddapi.dto.CreatePostDto;
 import com.openclassrooms.mddapi.dto.PostDto;
 import com.openclassrooms.mddapi.exception.ResourceNotFoundException;
 import com.openclassrooms.mddapi.service.PostService;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -36,6 +37,14 @@ public class PostController {
         List<PostDto> postDtos = postService.getPostsBySubscribedTopics();
         log.info("Process terminated successfully, {} posts retrieved", postDtos.size());
         return postDtos;
+    }
+
+    @PostMapping("/create")
+    ResponseEntity<?> createPost(@Valid @RequestBody CreatePostDto newPost) throws ResourceNotFoundException {
+        log.info("start the process to create a new post");
+        this.postService.createPost(newPost);
+        log.info("Process to create new post terminated successfully");
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
 }

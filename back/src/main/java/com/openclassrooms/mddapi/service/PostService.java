@@ -1,5 +1,6 @@
 package com.openclassrooms.mddapi.service;
 
+import com.openclassrooms.mddapi.dto.CreatePostDto;
 import com.openclassrooms.mddapi.dto.PostDto;
 import com.openclassrooms.mddapi.exception.ResourceNotFoundException;
 import com.openclassrooms.mddapi.model.Post;
@@ -14,5 +15,7 @@ public interface PostService {
     PostDto findPostDtoById(Long postId) throws ResourceNotFoundException;
 
     List<PostDto> getPostsBySubscribedTopics() throws ResourceNotFoundException;
+
+    void createPost(CreatePostDto newPost) throws ResourceNotFoundException;
 
 }

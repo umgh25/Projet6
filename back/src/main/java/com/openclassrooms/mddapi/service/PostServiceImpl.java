@@ -1,5 +1,6 @@
 package com.openclassrooms.mddapi.service;
 
+import com.openclassrooms.mddapi.dto.CreatePostDto;
 import com.openclassrooms.mddapi.dto.PostDto;
 import com.openclassrooms.mddapi.exception.ResourceNotFoundException;
 import com.openclassrooms.mddapi.mapper.PostMapper;
@@ -10,6 +11,7 @@ import com.openclassrooms.mddapi.repository.PostRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,12 +21,13 @@ public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
     private final UserService userService;
-
+    private final TopicService topicService;
     private final PostMapper postMapper;
 
-    public PostServiceImpl(PostRepository postRepository, UserService userService, PostMapper postMapper) {
+    public PostServiceImpl(PostRepository postRepository, UserService userService, TopicService topicService, PostMapper postMapper) {
         this.postRepository = postRepository;
         this.userService = userService;
+        this.topicService = topicService;
         this.postMapper = postMapper;
     }
 
@@ -56,5 +59,15 @@ public class PostServiceImpl implements PostService {
         List <PostDto> posts =  this.postMapper.asPostDtos(this.postRepository.findByTopicInOrderByCreatedAtDesc(subscribedTopics));
 
         return posts;
+    }
+
+
+    @Override
+    public void createPost(CreatePostDto newPost) throws ResourceNotFoundException {
+        User user = this.userService.getLoggedUser();
+        Post post = this.postMapper.asPost(newPost, this.topicService);
+        post.setAuthor(user);
+        post.setCreatedAt(LocalDate.now());
+        this.postRepository.save(post);
     }
 }
