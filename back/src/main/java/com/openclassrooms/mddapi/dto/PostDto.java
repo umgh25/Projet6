@@ -11,6 +11,10 @@ public class PostDto {
 
     private String description;
 
+    private String title;
+
+    private String topic;
+
     private String author;
 
     private String content;
