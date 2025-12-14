@@ -5,9 +5,11 @@ import com.openclassrooms.mddapi.dto.PostDto;
 import com.openclassrooms.mddapi.exception.ResourceNotFoundException;
 import com.openclassrooms.mddapi.mapper.PostMapper;
 import com.openclassrooms.mddapi.model.Post;
+import com.openclassrooms.mddapi.model.Subscription;
 import com.openclassrooms.mddapi.model.Topic;
 import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.repository.PostRepository;
+import com.openclassrooms.mddapi.repository.SubscriptionRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -23,12 +25,14 @@ public class PostServiceImpl implements PostService {
     private final UserService userService;
     private final TopicService topicService;
     private final PostMapper postMapper;
+    private final SubscriptionRepository subscriptionRepository;
 
-    public PostServiceImpl(PostRepository postRepository, UserService userService, TopicService topicService, PostMapper postMapper) {
+    public PostServiceImpl(PostRepository postRepository, UserService userService, TopicService topicService, PostMapper postMapper, SubscriptionRepository subscriptionRepository) {
         this.postRepository = postRepository;
         this.userService = userService;
         this.topicService = topicService;
         this.postMapper = postMapper;
+        this.subscriptionRepository = subscriptionRepository;
     }
 
     @Override
@@ -54,7 +58,10 @@ public class PostServiceImpl implements PostService {
 
         User loggedUser = this.userService.getLoggedUser();
 
-        List<Topic> subscribedTopics = loggedUser.getTopics();
+        List<Topic> subscribedTopics = subscriptionRepository.findByUser(loggedUser)
+                .stream()
+                .map(Subscription::getTopic)
+                .toList();
 
         List <PostDto> posts =  this.postMapper.asPostDtos(this.postRepository.findByTopicInOrderByCreatedAtDesc(subscribedTopics));
 

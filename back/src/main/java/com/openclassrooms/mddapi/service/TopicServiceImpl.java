@@ -4,11 +4,14 @@ import com.openclassrooms.mddapi.dto.TopicDto;
 import com.openclassrooms.mddapi.dto.UserTopicsSubscribedDto;
 import com.openclassrooms.mddapi.exception.BadRequestException;
 import com.openclassrooms.mddapi.exception.ResourceNotFoundException;
+import com.openclassrooms.mddapi.model.Subscription;
 import com.openclassrooms.mddapi.model.Topic;
 import com.openclassrooms.mddapi.model.User;
+import com.openclassrooms.mddapi.repository.SubscriptionRepository;
 import com.openclassrooms.mddapi.repository.TopicRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,11 +21,12 @@ import java.util.Optional;
 public class TopicServiceImpl implements TopicService {
 
     private final TopicRepository topicRepository;
-
+    private final SubscriptionRepository subscriptionRepository;
     private final UserService userService;
 
-    public TopicServiceImpl(TopicRepository topicRepository, UserService userService) {
+    public TopicServiceImpl(TopicRepository topicRepository, SubscriptionRepository subscriptionRepository, UserService userService) {
         this.topicRepository = topicRepository;
+        this.subscriptionRepository = subscriptionRepository;
         this.userService = userService;
     }
 
@@ -48,8 +52,8 @@ public class TopicServiceImpl implements TopicService {
      * @return List of topicDto including user subscription status
      */
     private List<TopicDto> mapTopicsToDtosWithSubscriptionStatus(List<Topic> topics, User userLogged) {
-        List<TopicDto> topicDtos = topics.stream().map(topic -> {
-            boolean hasAlreadySubscribed = userLogged.getTopics().contains(topic);
+        return topics.stream().map(topic -> {
+            boolean hasAlreadySubscribed = subscriptionRepository.existsByUserAndTopic(userLogged, topic);
 
             return TopicDto.builder()
                     .id(topic.getId())
@@ -58,7 +62,6 @@ public class TopicServiceImpl implements TopicService {
                     .subscribed(hasAlreadySubscribed)
                     .build();
         }).toList();
-        return topicDtos;
     }
 
     /**
@@ -85,7 +88,7 @@ public class TopicServiceImpl implements TopicService {
      */
     private List<UserTopicsSubscribedDto> mapTopicsToDtos(List<Topic> topics, User userLogged) {
         return topics.stream().filter(
-                topic -> userLogged.getTopics().contains(topic)
+                topic -> subscriptionRepository.existsByUserAndTopic(userLogged, topic)
         ).map(
                 topic -> UserTopicsSubscribedDto.builder()
                         .id(topic.getId())
@@ -102,6 +105,7 @@ public class TopicServiceImpl implements TopicService {
      * @throws BadRequestException if user is already subscribed
      */
     @Override
+    @Transactional
     public void subscribeTopic(Long topicId) throws ResourceNotFoundException, BadRequestException {
 
         log.info("Try to subscribe to topic with id {}", topicId);
@@ -109,16 +113,18 @@ public class TopicServiceImpl implements TopicService {
         User userLogged = userService.getLoggedUser();
         Topic topic = getTopicById(topicId);
 
-
-        boolean hasAlreadySubscribed = userLogged.getTopics().contains(topic);
+        boolean hasAlreadySubscribed = subscriptionRepository.existsByUserAndTopic(userLogged, topic);
 
         if (hasAlreadySubscribed) {
             log.error("User is already subscribed");
             throw new BadRequestException();
         }
 
-        userLogged.getTopics().add(topic);
-        this.userService.updateUser(userLogged);
+        Subscription subscription = Subscription.builder()
+                .user(userLogged)
+                .topic(topic)
+                .build();
+        subscriptionRepository.save(subscription);
         log.info("User {}'s subscription to the topic {} has been successfully added", userLogged.getUserName(), topicId);
     }
 
@@ -129,6 +135,7 @@ public class TopicServiceImpl implements TopicService {
      * @throws BadRequestException if user is not subscribed
      */
     @Override
+    @Transactional
     public void unsubscribeTopic(Long topicId) throws ResourceNotFoundException, BadRequestException {
 
         log.info("Try to unsubscribe to topic with id {}", topicId);
@@ -136,18 +143,14 @@ public class TopicServiceImpl implements TopicService {
         User userLogged = userService.getLoggedUser();
         Topic topic = getTopicById(topicId);
 
+        Subscription subscription = subscriptionRepository.findByUserAndTopic(userLogged, topic)
+                .orElseThrow(() -> {
+                    log.error("User has not subscribed");
+                    return new BadRequestException();
+                });
 
-        boolean hasAlreadySubscribed = userLogged.getTopics().contains(topic);
-
-        if (!hasAlreadySubscribed) {
-            log.error("User has not subscribed");
-            throw new BadRequestException();
-        }
-
-        userLogged.getTopics().remove(topic);
-        this.userService.updateUser(userLogged);
+        subscriptionRepository.delete(subscription);
         log.info("User {} unsubscribed from topic {} successfully", userLogged.getUserName(), topicId);
-
     }
 
     @Override
