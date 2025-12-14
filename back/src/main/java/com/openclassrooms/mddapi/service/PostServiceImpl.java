@@ -33,6 +33,12 @@ public class PostServiceImpl implements PostService {
         return postRepository.findById(postId);
     }
 
+    @Override
+    public PostDto findPostDtoById(Long postId) throws ResourceNotFoundException {
+        Post post = this.findPostById(postId).orElseThrow(ResourceNotFoundException::new);
+        return this.postMapper.asPostDto(post);
+    }
+
     /**
      * Retrieve all posts from topics the user is subscribed to
      * @return list of postDto

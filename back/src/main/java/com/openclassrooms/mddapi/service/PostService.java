@@ -11,6 +11,8 @@ public interface PostService {
 
     Optional<Post> findPostById(Long postId);
 
+    PostDto findPostDtoById(Long postId) throws ResourceNotFoundException;
+
     List<PostDto> getPostsBySubscribedTopics() throws ResourceNotFoundException;
 
 }

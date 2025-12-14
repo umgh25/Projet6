@@ -5,6 +5,7 @@ import com.openclassrooms.mddapi.exception.ResourceNotFoundException;
 import com.openclassrooms.mddapi.service.PostService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,6 +20,14 @@ public class PostController {
 
     public PostController(PostService postService) {
         this.postService = postService;
+    }
+
+    @GetMapping("/{id}")
+    PostDto getPostById(@PathVariable Long id) throws ResourceNotFoundException {
+        log.info("start the process to retrieve post by its id");
+        PostDto postDto = this.postService.findPostDtoById(id);
+        log.info("Process terminated successfully");
+        return postDto;
     }
 
     @GetMapping
