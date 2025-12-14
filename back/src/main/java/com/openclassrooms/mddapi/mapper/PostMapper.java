@@ -17,12 +17,17 @@ public interface PostMapper {
             @Mapping(target = "author", expression = "java(post.getAuthor().getUserName())"),
             @Mapping(target = "topic", expression = "java(post.getTopic().getTitle())")
     })
-
     PostDto asPostDto(Post post);
 
-    List<PostDto> asPostDtos (List<Post> posts);
+    List<PostDto> asPostDtos(List<Post> posts);
 
 
-    @Mapping(target = "topic", expression = "java(topicService.findTopicById(createPostDto.getTopicId()).orElse(null))")
-    Post asPost (CreatePostDto createPostDto, TopicService topicService);
+    @Mappings({
+            @Mapping(target = "topic", expression = "java(topicService.findTopicById(createPostDto.getTopicId()).orElse(null))"),
+            @Mapping(target = "author", ignore = true),
+            @Mapping(target = "id", ignore = true),
+            @Mapping(target = "createdAt", ignore = true),
+            @Mapping(target = "comments", ignore = true)
+    })
+    Post asPost(CreatePostDto createPostDto, TopicService topicService);
 }

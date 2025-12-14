@@ -1,9 +1,11 @@
 package com.openclassrooms.mddapi.service;
 
 import com.openclassrooms.mddapi.dto.TopicDto;
+import com.openclassrooms.mddapi.dto.TopicWithSubscriptionStatusDto;
 import com.openclassrooms.mddapi.dto.UserTopicsSubscribedDto;
 import com.openclassrooms.mddapi.exception.BadRequestException;
 import com.openclassrooms.mddapi.exception.ResourceNotFoundException;
+import com.openclassrooms.mddapi.mapper.TopicMapper;
 import com.openclassrooms.mddapi.model.Subscription;
 import com.openclassrooms.mddapi.model.Topic;
 import com.openclassrooms.mddapi.model.User;
@@ -23,20 +25,27 @@ public class TopicServiceImpl implements TopicService {
     private final TopicRepository topicRepository;
     private final SubscriptionRepository subscriptionRepository;
     private final UserService userService;
+    private final TopicMapper topicMapper;
 
-    public TopicServiceImpl(TopicRepository topicRepository, SubscriptionRepository subscriptionRepository, UserService userService) {
+    public TopicServiceImpl(TopicRepository topicRepository, SubscriptionRepository subscriptionRepository, UserService userService, TopicMapper topicMapper) {
         this.topicRepository = topicRepository;
         this.subscriptionRepository = subscriptionRepository;
         this.userService = userService;
+        this.topicMapper = topicMapper;
+    }
+
+    @Override
+    public List<TopicDto> findAllTopic() {
+        return this.topicMapper.asTopicDtos(this.topicRepository.findAll());
     }
 
     /**
-     * Retrieve list of all topics
+     * Retrieve a list of all topics
      * @return list of topicDto
      * @throws ResourceNotFoundException if user not found
      */
     @Override
-    public List<TopicDto> findAll() throws ResourceNotFoundException {
+    public List<TopicWithSubscriptionStatusDto> findAllTopicsWithSubscriptionStatus() throws ResourceNotFoundException {
 
         User userLogged = userService.getLoggedUser();
 
@@ -51,11 +60,11 @@ public class TopicServiceImpl implements TopicService {
      * @param userLogged user logged into the application
      * @return List of topicDto including user subscription status
      */
-    private List<TopicDto> mapTopicsToDtosWithSubscriptionStatus(List<Topic> topics, User userLogged) {
+    private List<TopicWithSubscriptionStatusDto> mapTopicsToDtosWithSubscriptionStatus(List<Topic> topics, User userLogged) {
         return topics.stream().map(topic -> {
             boolean hasAlreadySubscribed = subscriptionRepository.existsByUserAndTopic(userLogged, topic);
 
-            return TopicDto.builder()
+            return TopicWithSubscriptionStatusDto.builder()
                     .id(topic.getId())
                     .description(topic.getDescription())
                     .title(topic.getTitle())
@@ -101,8 +110,8 @@ public class TopicServiceImpl implements TopicService {
     /**
      * Allow subscribing to a topic
      * @param topicId topic's id
-     * @throws ResourceNotFoundException if user or topic not found
-     * @throws BadRequestException if user is already subscribed
+     * @throws ResourceNotFoundException if user or topic isn't found
+     * @throws BadRequestException if a user is already subscribed
      */
     @Override
     @Transactional
@@ -131,8 +140,8 @@ public class TopicServiceImpl implements TopicService {
     /**
      * Allow unsubscribing from a topic
      * @param topicId topic'id
-     * @throws ResourceNotFoundException if user or topic not found
-     * @throws BadRequestException if user is not subscribed
+     * @throws ResourceNotFoundException if user or topic isn't found
+     * @throws BadRequestException if a user is not subscribed
      */
     @Override
     @Transactional
@@ -161,5 +170,4 @@ public class TopicServiceImpl implements TopicService {
     private Topic getTopicById(Long topicId) throws ResourceNotFoundException {
         return this.topicRepository.findById(topicId).orElseThrow(ResourceNotFoundException::new);
     }
-
 }

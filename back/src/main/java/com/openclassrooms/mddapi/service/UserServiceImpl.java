@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public User addUser(RegisterRequestDto registerRequest) throws UserAlreadyRegisteredException {
         log.info("Check if user is already registered");
-        this.isUserAlreadyRegister(registerRequest.getEmail());
+        this.isUserAlreadyRegister(registerRequest.getEmail(), registerRequest.getUserName());
 
         User userToSave = User.builder()
                 .userName(registerRequest.getUserName())
@@ -55,8 +55,15 @@ public class UserServiceImpl implements UserService{
         return this.findUserByMail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(ResourceNotFoundException::new);
     }
 
-    private void isUserAlreadyRegister(String email) throws UserAlreadyRegisteredException {
+    /**
+     * Check if user is already registered
+     * @param email user's email
+     * @param username username
+     * @throws UserAlreadyRegisteredException if user is already registered
+     */
+    private void isUserAlreadyRegister(String email, String username) throws UserAlreadyRegisteredException {
         Optional<User> user = this.userRepository.findByEmail(email);
+        user = user.isPresent() ? user : userRepository.findByUserName(username);
         if (user.isPresent()) {
             log.error("User is already registered");
             throw new UserAlreadyRegisteredException();

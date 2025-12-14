@@ -1,6 +1,7 @@
 package com.openclassrooms.mddapi.controller;
 
 import com.openclassrooms.mddapi.dto.TopicDto;
+import com.openclassrooms.mddapi.dto.TopicWithSubscriptionStatusDto;
 import com.openclassrooms.mddapi.dto.UserTopicsSubscribedDto;
 import com.openclassrooms.mddapi.exception.BadRequestException;
 import com.openclassrooms.mddapi.exception.ResourceNotFoundException;
@@ -23,12 +24,17 @@ public class TopicController {
     }
 
     @GetMapping
-    List<TopicDto> findAll() throws ResourceNotFoundException {
-        return this.topicService.findAll();
+    List<TopicWithSubscriptionStatusDto> getAllTopicsWithSubscriptionStatus() throws ResourceNotFoundException {
+        return this.topicService.findAllTopicsWithSubscriptionStatus();
+    }
+
+    @GetMapping("/list")
+    List<TopicDto> getAllTopics() {
+        return this.topicService.findAllTopic();
     }
 
     @PostMapping("/{topicId}")
-    public ResponseEntity<Void> subscribe(@PathVariable Long topicId) throws ResourceNotFoundException, BadRequestException {
+    ResponseEntity<?> subscribe(@PathVariable Long topicId) throws ResourceNotFoundException, BadRequestException {
         log.info("POST api/topic/{} called -> start the process to subscribe topic", topicId);
         this.topicService.subscribeTopic(topicId);
         log.info("Process terminated successfully");

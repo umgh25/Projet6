@@ -1,6 +1,7 @@
 package com.openclassrooms.mddapi.service;
 
 import com.openclassrooms.mddapi.dto.TopicDto;
+import com.openclassrooms.mddapi.dto.TopicWithSubscriptionStatusDto;
 import com.openclassrooms.mddapi.dto.UserTopicsSubscribedDto;
 import com.openclassrooms.mddapi.exception.BadRequestException;
 import com.openclassrooms.mddapi.exception.ResourceNotFoundException;
@@ -11,7 +12,8 @@ import java.util.Optional;
 
 public interface TopicService {
 
-    List<TopicDto> findAll() throws ResourceNotFoundException;
+    List<TopicDto> findAllTopic();
+    List<TopicWithSubscriptionStatusDto> findAllTopicsWithSubscriptionStatus() throws ResourceNotFoundException;
 
     List<UserTopicsSubscribedDto> getSubscribedTopicsByUser() throws ResourceNotFoundException;
 
