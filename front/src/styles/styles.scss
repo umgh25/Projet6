@@ -11,4 +11,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .mat-mdc-raised-button {
   background-color: var(--mdc-theme-primary) !important;
   color: var(--mdc-theme-on-primary) !important;
+  border-radius: 10px!important;
+}
+
+.mat-mdc-tex-field {
+  width: 400px;
 }

@@ -3,10 +3,10 @@
   <h2>Se connecter</h2>
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <div class="field">
-      <label for="email">E-mail ou nom d'utilisateur</label>
+      <label for="userName">E-mail ou nom d'utilisateur</label>
       <mat-form-field appearance="outline">
-        <input matInput id="email" type="email" formControlName="email">
-        <mat-error class="text-danger" *ngIf="loginForm.get('email')?.hasError('required') && loginForm.get('email')?.touched">Champ obligatoire</mat-error>
+        <input matInput id="userName" formControlName="userName">
+        <mat-error class="text-danger" *ngIf="loginForm.get('userName')?.hasError('required') && loginForm.get('userName')?.touched">Champ obligatoire</mat-error>
       </mat-form-field>
     </div>
     <div class="field">
