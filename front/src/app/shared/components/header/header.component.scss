@@ -1,0 +1,29 @@
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  height: 12%;
+}
+
+.logo {
+  width: 8%;
+}
+
+.logout-link {
+  color: #a40f0f;
+}
+
+.links {
+  margin-right: 5%;
+  display: flex;
+  gap: 5%;
+}
+
+.link {
+  font-weight: 300;
+}
+
+@media (max-width: 1250px) {
+  .toolbar {
+    height: 10%;
+  }
+}
