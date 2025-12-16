@@ -17,4 +17,8 @@ export class AuthService {
   public register(registerRequest: RegisterRequest): Observable<AuthSuccess> {
     return this.http.post<AuthSuccess>(`${this.pathService}/register`, registerRequest);
   }
+
+  public login(loginRequest: { userName: string; password: string }): Observable<AuthSuccess> {
+    return this.http.post<AuthSuccess>(`${this.pathService}/login`, loginRequest);
+  }
 }
