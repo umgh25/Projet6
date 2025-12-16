@@ -1,9 +1,14 @@
-#register {
-  margin-top: 2%;
+#login {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  margin-top: 2%;
+}
+
+#logo img {
+  max-width: 100%;
+  height: auto;
 }
 
 form {
@@ -24,6 +29,7 @@ h2 {
   flex-direction: column;
   width: 30%;
   min-width: 300px;
+  max-width: 420px;
 }
 
 .arrow{

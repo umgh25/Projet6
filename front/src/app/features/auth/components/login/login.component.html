@@ -1,0 +1,21 @@
+<a href="/"><svg class="arrow" xmlns="http://www.w3.org/2000/svg" height="100px" viewBox="0 -960 960 960" width="100px" fill="#1f1f1f"><path d="M258.62-464.62 502-222l-22 22-280-280 280-280 22 22-243.38 242.62H760v30.76H258.62Z"/></svg></a>
+<div id="login">
+  <h2>Se connecter</h2>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div class="field">
+      <label for="userName">E-mail ou nom d'utilisateur</label>
+      <mat-form-field appearance="outline">
+        <input matInput id="userName" formControlName="userName">
+        <mat-error class="text-danger" *ngIf="loginForm.get('userName')?.hasError('required') && loginForm.get('userName')?.touched">Champ obligatoire</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="field">
+      <label for="password">Mot de passe</label>
+      <mat-form-field appearance="outline">
+        <input matInput id="password" type="password" formControlName="password">
+        <mat-error class="text-danger" *ngIf="loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched">Champ obligatoire</mat-error>
+      </mat-form-field>
+    </div>
+    <button id="button" type="submit" mat-raised-button color="primary">Se connecter</button>
+  </form>
+</div>
