@@ -1,14 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { AuthService } from '../../services/auth.service';
-import { AuthSuccess } from '../../interfaces/authSuccess.interface';
+import { AuthSuccess } from '../../interfaces/auth-success';
 import { SessionService } from '../../../../services/session.service';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrl: './register.component.scss'
+  styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
 

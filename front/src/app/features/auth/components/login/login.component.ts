@@ -3,12 +3,12 @@ import { AuthService } from '../../services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SessionService } from '../../../../services/session.service';
-import { AuthSuccess } from '../../interfaces/authSuccess.interface';
+import { AuthSuccess } from '../../interfaces/auth-success';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
 
