@@ -4,6 +4,7 @@ import { RegisterRequest } from '../interfaces/register-request';
 import { Observable } from 'rxjs';
 import { AuthSuccess } from '../interfaces/auth-success';
 import { environment } from '../../../../environments/environment';
+import { LoginRequest} from "../interfaces/loginRequest.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class AuthService {
     return this.http.post<AuthSuccess>(`${this.pathService}/register`, registerRequest);
   }
 
-  public login(loginRequest: { userName: string; password: string }): Observable<AuthSuccess> {
+  public login(loginRequest: LoginRequest): Observable<AuthSuccess> {
     return this.http.post<AuthSuccess>(`${this.pathService}/login`, loginRequest);
   }
 }
