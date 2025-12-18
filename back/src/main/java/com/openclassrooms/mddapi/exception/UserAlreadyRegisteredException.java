@@ -3,6 +3,6 @@ package com.openclassrooms.mddapi.exception;
 public class UserAlreadyRegisteredException extends RuntimeException {
 
     public UserAlreadyRegisteredException() {
-        super(message);
+        super("L'utilisateur est déjà enregistré");
     }
 }
