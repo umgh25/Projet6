@@ -2,6 +2,7 @@ package com.openclassrooms.mddapi.service;
 
 import com.openclassrooms.mddapi.dto.CreatePostDto;
 import com.openclassrooms.mddapi.dto.PostDto;
+import com.openclassrooms.mddapi.dto.PostWithCommentsDto;
 import com.openclassrooms.mddapi.exception.ResourceNotFoundException;
 import com.openclassrooms.mddapi.model.Post;
 
@@ -12,7 +13,7 @@ public interface PostService {
 
     Optional<Post> findPostById(Long postId);
 
-    PostDto findPostDtoById(Long postId) throws ResourceNotFoundException;
+    PostWithCommentsDto findPostDtoById(Long postId) throws ResourceNotFoundException;
 
     List<PostDto> getPostsBySubscribedTopics() throws ResourceNotFoundException;
 
