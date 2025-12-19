@@ -15,4 +15,8 @@ export class PostService {
   public getPosts(): Observable<Post[]> {
     return this.http.get<Post[]>(`${this.pathService}`);
   }
+
+  public getPostById(id: string): Observable<Post> {
+    return this.http.get<Post>(`${this.pathService}/${id}`)
+  }
 }
