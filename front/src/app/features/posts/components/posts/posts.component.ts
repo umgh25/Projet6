@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Post } from '../../interfaces/post';
+import { PostInterface } from '../../interfaces/post.interface';
 import { ActivatedRoute } from '@angular/router';
 import { map, Observable } from 'rxjs';
 
@@ -9,8 +9,8 @@ import { map, Observable } from 'rxjs';
   styleUrls: ['./posts.component.scss']
 })
 export class PostsComponent implements OnInit{
-  allPosts$!: Observable<Post[]>;
-  sortedPosts$!: Observable<Post[]>;
+  allPosts$!: Observable<PostInterface[]>;
+  sortedPosts$!: Observable<PostInterface[]>;
   isAscending = true;
 
   constructor(private activatedRoute: ActivatedRoute) {}
