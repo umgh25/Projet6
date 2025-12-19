@@ -6,7 +6,7 @@ import {
 } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { PostService } from '../services/post.service';
-import { PostInterface } from '../interfaces/post.interface';
+import { Post } from '../interfaces/post.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ import { PostInterface } from '../interfaces/post.interface';
 export class PostResolver implements Resolve<any> {
   constructor(private postService:PostService){}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<PostInterface[]> {
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Post[]> {
     return this.postService.getPosts();
   }
 }

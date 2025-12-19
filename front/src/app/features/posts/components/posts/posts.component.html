@@ -14,7 +14,7 @@
     </button>
   </div>
   <div class="cards-container">
-    <mat-card class="card" *ngFor=" let post of sortedPosts$|async">
+    <mat-card class="card" *ngFor="let post of sortedPosts$|async" [routerLink]="['/post', post.id]">
       <mat-card-content class="content">
         <div class="title">{{post.title}}</div>
         <div class="post-info">
