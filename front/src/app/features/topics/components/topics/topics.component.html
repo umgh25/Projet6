@@ -1,0 +1,22 @@
+<div class="topics">
+  <div class="topics-container">
+    @for(topic of topics$|async; track topic){
+    <mat-card class="card">
+        <mat-card-content class="content">
+            <div class="title">{{topic.title}}</div>
+                    <div class="content">
+                        <p>{{topic.description}}</p>
+                    </div>
+                    <div class="button-container">
+                        @if(topic.subscribed){
+    <button id="button" type="button" mat-raised-button disabled>Déja abonné</button>
+    } @else {
+    <button id="button" type="button" mat-raised-button disable>S'abonner</button>
+    }
+    </div>
+
+</mat-card-content>
+</mat-card>
+    }
+  </div>
+</div>
