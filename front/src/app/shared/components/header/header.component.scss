@@ -25,6 +25,17 @@
 
 .link {
   font-weight: 300;
+  text-decoration: none;
+}
+
+
+.active-link {
+  color: #7763C5;
+  text-decoration: none;
+}
+
+a:not(.active-link) {
+  color: black;
 }
 
 @media (max-width: 1250px) {

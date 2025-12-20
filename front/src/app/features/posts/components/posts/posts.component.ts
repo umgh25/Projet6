@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Post } from '../../interfaces/post.interface';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { map, Observable } from 'rxjs';
 
 @Component({
@@ -13,7 +13,7 @@ export class PostsComponent implements OnInit{
   sortedPosts$!: Observable<Post[]>;
   isAscending = true;
 
-  constructor(private activatedRoute: ActivatedRoute) {}
+  constructor(private activatedRoute: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
     this.allPosts$ = this.activatedRoute.data.pipe(
@@ -30,5 +30,9 @@ export class PostsComponent implements OnInit{
         return this.isAscending ? sorted : sorted.reverse();
       })
     );
+  }
+
+  public createNewPost() {
+    this.router.navigate(['/post/new']);
   }
 }
