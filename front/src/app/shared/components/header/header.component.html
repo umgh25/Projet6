@@ -2,8 +2,7 @@
   <img class="logo" src="assets/logo_p6.png" alt="logo">
   <div *ngIf="isLogged" class="links">
     <button (click)="logout()" class="logout-link link">Se déconnecter</button>
-    <a class="link">Articles</a>
+    <a routerLink="/post/list" routerLinkActive="active-link" class="link">Articles</a>
     <a class="link">Themes</a>
-    <a class="link">{{isLogged}}</a>
   </div>
 </mat-toolbar>
