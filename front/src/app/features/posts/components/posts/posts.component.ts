@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Post } from '../../interfaces/post';
+import { Post } from '../../interfaces/post.interface';
 import { ActivatedRoute } from '@angular/router';
 import { map, Observable } from 'rxjs';
 

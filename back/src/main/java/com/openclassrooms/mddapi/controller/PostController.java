@@ -2,6 +2,7 @@ package com.openclassrooms.mddapi.controller;
 
 import com.openclassrooms.mddapi.dto.CreatePostDto;
 import com.openclassrooms.mddapi.dto.PostDto;
+import com.openclassrooms.mddapi.dto.PostWithCommentsDto;
 import com.openclassrooms.mddapi.exception.ResourceNotFoundException;
 import com.openclassrooms.mddapi.service.PostService;
 import jakarta.validation.Valid;
@@ -24,15 +25,15 @@ public class PostController {
     }
 
     @GetMapping("/{id}")
-    PostDto getPostById(@PathVariable Long id) throws ResourceNotFoundException {
+    PostWithCommentsDto getPostById(@PathVariable Long id) throws ResourceNotFoundException {
         log.info("start the process to retrieve post by its id");
-        PostDto postDto = this.postService.findPostDtoById(id);
+        PostWithCommentsDto postDto = this.postService.findPostDtoById(id);
         log.info("Process terminated successfully");
         return postDto;
     }
 
     @GetMapping
-    List<PostDto> getPostsBySubscribedTopics() throws ResourceNotFoundException {
+    List getPostsBySubscribedTopics() throws ResourceNotFoundException {
         log.info("start the process to retrieve all posts from topics the user is subscribed to");
         List<PostDto> postDtos = postService.getPostsBySubscribedTopics();
         log.info("Process terminated successfully, {} posts retrieved", postDtos.size());

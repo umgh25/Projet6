@@ -6,7 +6,7 @@ import {
 } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { PostService } from '../services/post.service';
-import { Post } from '../interfaces/post';
+import { Post } from '../interfaces/post.interface';
 
 @Injectable({
   providedIn: 'root'

@@ -2,6 +2,7 @@ package com.openclassrooms.mddapi.service;
 
 import com.openclassrooms.mddapi.dto.CreatePostDto;
 import com.openclassrooms.mddapi.dto.PostDto;
+import com.openclassrooms.mddapi.dto.PostWithCommentsDto;
 import com.openclassrooms.mddapi.exception.ResourceNotFoundException;
 import com.openclassrooms.mddapi.mapper.PostMapper;
 import com.openclassrooms.mddapi.model.Post;
@@ -41,9 +42,9 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDto findPostDtoById(Long postId) throws ResourceNotFoundException {
+    public PostWithCommentsDto findPostDtoById(Long postId) throws ResourceNotFoundException {
         Post post = this.findPostById(postId).orElseThrow(ResourceNotFoundException::new);
-        return this.postMapper.asPostDto(post);
+        return this.postMapper.asPostWithCommentDto(post);
     }
 
     /**
