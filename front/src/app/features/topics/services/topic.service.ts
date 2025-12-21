@@ -20,4 +20,8 @@ export class TopicService {
     return this.http.get<Topic[]>(`${this.pathService}`);
 
   }
+
+  public subscribe(topicId:string): Observable<void> {
+    return this.http.post<void>(`${this.pathService}/${topicId}`, null);
+  }
 }

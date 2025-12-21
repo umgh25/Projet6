@@ -33,7 +33,7 @@ public class PostController {
     }
 
     @GetMapping
-    List getPostsBySubscribedTopics() throws ResourceNotFoundException {
+    List<PostDto> getPostsBySubscribedTopics() throws ResourceNotFoundException {
         log.info("start the process to retrieve all posts from topics the user is subscribed to");
         List<PostDto> postDtos = postService.getPostsBySubscribedTopics();
         log.info("Process terminated successfully, {} posts retrieved", postDtos.size());

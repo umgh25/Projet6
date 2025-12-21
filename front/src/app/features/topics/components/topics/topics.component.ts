@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { map, Observable, take } from 'rxjs';
 import { Topic } from '../../../posts/interfaces/topic.interface';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TopicService } from '../../services/topic.service';
 
 @Component({
@@ -9,11 +9,15 @@ import { TopicService } from '../../services/topic.service';
   templateUrl: './topics.component.html',
   styleUrls: ['./topics.component.scss'],
 })
-export class TopicsComponent implements OnInit{
+export class TopicsComponent implements OnInit {
 
-  topics$!: Observable<Topic[]>
+  topics$!: Observable<Topic[]>;
 
-  constructor(private activatedRoute: ActivatedRoute, private topicService: TopicService) {}
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private topicService: TopicService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.topics$ = this.activatedRoute.data.pipe(
@@ -21,4 +25,15 @@ export class TopicsComponent implements OnInit{
     );
   }
 
+  public subscribe(topicId: string): void {
+    this.topicService.subscribe(topicId)
+      .pipe(take(1))
+      .subscribe(() => {
+        this.reloadTopics();
+      });
+  }
+
+  private reloadTopics(): void {
+    this.topics$ = this.topicService.getAllTopicsWithSubscriptionStatus();
+  }
 }

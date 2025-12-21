@@ -11,7 +11,7 @@
                         @if(topic.subscribed){
     <button id="button" type="button" mat-raised-button disabled>Déja abonné</button>
     } @else {
-    <button id="button" type="button" mat-raised-button disable>S'abonner</button>
+    <button id="button" type="button" mat-raised-button (click)="subscribe(topic.id)" >S'abonner</button>
     }
     </div>
 
