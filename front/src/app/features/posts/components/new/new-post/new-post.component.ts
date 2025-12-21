@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { map, Observable, startWith, take } from 'rxjs';
-import { TopicService } from '../../../services/topic.service';
+import { TopicService } from '../../../../topics/services/topic.service';
 import { Topic } from '../../../interfaces/topic.interface';
 import { CreatePost } from '../../../interfaces/createPost.interface';
 import { PostService } from '../../../services/post.service';

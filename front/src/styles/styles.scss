@@ -8,11 +8,18 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   --mdc-theme-on-primary: white;
 }
 
-.mat-mdc-raised-button {
+.mat-mdc-raised-button:not(:disabled) {
   background-color: var(--mdc-theme-primary) !important;
   color: var(--mdc-theme-on-primary) !important;
   border-radius: 10px!important;
 }
+
+.mat-mdc-raised-button:disabled {
+  color: var(--mdc-theme-on-primary) !important;
+  background-color: #939393!important;
+  border-radius: 10px!important;
+}
+
 
 .mat-mdc-tex-field {
   width: 400px;

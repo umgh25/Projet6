@@ -13,11 +13,10 @@
       <div>{{ post.author }}</div>
       <div>{{ post.topic }}</div>
     </div>
-
     <div class="content">
-      <p>{{ post.content }}</p>
-      <hr />
+      <p>{{post.content}}</p>
     </div>
+    <hr>
 
     <div class="comments-container">
       <h3>Commentaires</h3>
@@ -44,6 +43,7 @@
       <form [formGroup]="commentForm" (ngSubmit)="onSubmit()">
 
         <mat-form-field appearance="outline">
+          <mat-label>Ecrivez ici votre commentaire</mat-label>
           <textarea
             matInput
             rows="5"

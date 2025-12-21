@@ -3,6 +3,6 @@
   <div *ngIf="isLogged" class="links">
     <button (click)="logout()" class="logout-link link">Se déconnecter</button>
     <a routerLink="/post/list" routerLinkActive="active-link" class="link">Articles</a>
-    <a class="link">Themes</a>
+    <a routerLink="/topic/list" routerLinkActive="active-link" class="link">Themes</a>
   </div>
 </mat-toolbar>
