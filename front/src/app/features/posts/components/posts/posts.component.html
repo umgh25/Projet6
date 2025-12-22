@@ -1,30 +1,25 @@
-<div class="posts">
-  <div class="buttons-container">
-    <button id="button" type="button" mat-raised-button color="primary" (click)="createNewPost()">Créer un article</button>
-    <button class="filter" (click)="onToggleSort()">Trier par
-      @if(isAscending) &#123;
-      <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#1f1f1f">
-        <path d="M446.67-800v513l-240-240L160-480l320 320 320-320-46.67-47-240 240v-513h-66.66Z" />
-      </svg>
-      } @else &#123;
-      <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#1f1f1f">
-        <path d="M446.67-160v-513l-240 240L160-480l320-320 320 320-46.67 47-240-240v513h-66.66Z" />
-      </svg>
-      }
-    </button>
-  </div>
-  <div class="cards-container">
-    <mat-card class="card" *ngFor="let post of sortedPosts$|async" [routerLink]="['/post', post.id]">
-      <mat-card-content class="content">
-        <div class="title">{{post.title}}</div>
-        <div class="post-info">
-          <div>{{post.author}}</div>
-          <div>{{post.createdAt}}</div>
-        </div>
-        <div class="content">
-          <p>{{post.content}}</p>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
-</div>
+<button class="filter" (click)="onToggleSort()">
+  Trier par
+
+  <!-- Icône ordre croissant -->
+  <ng-container *ngIf="isAscending; else descending">
+    <svg xmlns="http://www.w3.org/2000/svg"
+         height="40px"
+         viewBox="0 -960 960 960"
+         width="40px"
+         fill="#1f1f1f">
+      <path d="M446.67-800v513l-240-240L160-480l320 320 320-320-46.67-47-240 240v-513h-66.66Z"/>
+    </svg>
+  </ng-container>
+
+  <!-- Icône ordre décroissant -->
+  <ng-template #descending>
+    <svg xmlns="http://www.w3.org/2000/svg"
+         height="40px"
+         viewBox="0 -960 960 960"
+         width="40px"
+         fill="#1f1f1f">
+      <path d="M446.67-160v-513l-240 240L160-480l320-320 320 320-46.67 47-240-240v513h-66.66Z"/>
+    </svg>
+  </ng-template>
+</button>
