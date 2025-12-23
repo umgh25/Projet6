@@ -1,1 +1,46 @@
-<p>profile works!</p>
+<div id="profile">
+  <h2>Profil utilisateur</h2>
+  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline" class="field">
+      <mat-label>Username</mat-label>
+      <input matInput type="text" formControlName="username">
+      @if(profileForm.get('username')?.hasError("required") && profileForm.get('username')?.touched) {
+        <mat-error>Champs obligatoire</mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email">
+      @if(profileForm.get('email')?.hasError("required") && profileForm.get('email')?.touched) {
+        <mat-error>Champs obligatoire</mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Mot de passe</mat-label>
+      <input matInput type="password" formControlName="password">
+      @if(profileForm.get('password')?.hasError("required") && profileForm.get('password')?.touched) {
+        <mat-error>Champs obligatoire</mat-error>
+      }
+    </mat-form-field>
+    <div class="button-container">
+      <button type="submit" mat-raised-button color="primary">Sauvegarder</button>
+    </div>
+  </form>
+  <hr>
+  <h2>Abonnements</h2>
+  <div class="topics-container">
+    @for(topic of userSubscribedTopics$|async; track topic){
+      <mat-card class="card">
+        <mat-card-content class="content">
+          <div class="title">{{topic.title}}</div>
+          <div class="content">
+            <p>{{topic.description}}</p>
+          </div>
+          <div class="button-container">
+            <button id="button" type="button" mat-raised-button>Se désabonner</button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    }
+  </div>
+</div>
