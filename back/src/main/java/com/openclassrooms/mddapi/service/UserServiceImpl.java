@@ -1,8 +1,10 @@
 package com.openclassrooms.mddapi.service;
 
 import com.openclassrooms.mddapi.dto.RegisterRequestDto;
+import com.openclassrooms.mddapi.dto.UserDto;
 import com.openclassrooms.mddapi.exception.ResourceNotFoundException;
 import com.openclassrooms.mddapi.exception.UserAlreadyRegisteredException;
+import com.openclassrooms.mddapi.mapper.UserMapper;
 import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -20,9 +22,12 @@ public class UserServiceImpl implements UserService{
 
     private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    private final UserMapper userMapper;
+
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.userMapper = userMapper;
     }
 
     @Override
@@ -53,6 +58,13 @@ public class UserServiceImpl implements UserService{
     @Override
     public User getLoggedUser() throws ResourceNotFoundException {
         return this.findUserByMail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(ResourceNotFoundException::new);
+    }
+
+
+    @Override
+    public UserDto findUser() throws ResourceNotFoundException {
+        User user = this.getLoggedUser();
+        return this.userMapper.asUserDto(user);
     }
 
     /**
