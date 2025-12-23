@@ -18,6 +18,10 @@ const routes: Routes = [
   {
     path:"topic",
     loadChildren: () => import('./features/topics/topics.module').then(m => m.TopicsModule)
+  },
+  {
+    path:"profile",
+    loadChildren: () => import('./features/profile/profile.module').then(m => m.ProfileModule)
   }
 ];
 
