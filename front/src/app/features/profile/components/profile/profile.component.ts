@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { User } from '../../../auth/interfaces/user.interface';
 import { SessionService } from '../../../../services/session.service';
 import { TopicService } from '../../../topics/services/topic.service';
+import { CustomValidatorService } from '../../services/custom-validator.service';
 
 @Component({
   selector: 'app-profile',
@@ -14,7 +15,7 @@ import { TopicService } from '../../../topics/services/topic.service';
 })
 export class ProfileComponent implements OnInit, OnDestroy{
 
-  constructor(private formBuilder: FormBuilder, private activatedRoute:ActivatedRoute, private sessionService: SessionService, private topicService: TopicService){}
+  constructor(private formBuilder: FormBuilder, private activatedRoute:ActivatedRoute, private sessionService: SessionService, private topicService: TopicService, private customValidatorService : CustomValidatorService){}
 
   profileForm!: FormGroup;
   userSubscribedTopics$!: Observable<Topic[]>
@@ -32,7 +33,11 @@ export class ProfileComponent implements OnInit, OnDestroy{
   private initForm(){
     this.profileForm = this.formBuilder.group({
       username:[this.user?.userName ? this.user?.userName : "", Validators.required],
-      email:[this.user?.email ? this.user.email : "", Validators.required],
+      email:[this.user?.email ? this.user.email : "", {
+        validators: [Validators.required, Validators.email],
+        asyncValidators: [this.customValidatorService.emailTakenValidator()],
+        updateOn:'blur'
+      }],
       password:["", Validators.required]
     })
   }

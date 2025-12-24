@@ -14,6 +14,9 @@
       @if(profileForm.get('email')?.hasError("required") && profileForm.get('email')?.touched) {
         <mat-error>Champs obligatoire</mat-error>
       }
+      @if(profileForm.get('email')?.hasError("emailTaken") && profileForm.get('email')?.touched) {
+        <mat-error>Cet email appartient déjà à un compte</mat-error>
+      }
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Mot de passe</mat-label>

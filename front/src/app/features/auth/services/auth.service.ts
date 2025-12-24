@@ -27,4 +27,7 @@ export class AuthService {
   public getUserInfo(): Observable<User> {
     return this.http.get<User>(`${this.pathService}/me`);
   }
+  public checkIfEmailIsAlreadyTaken(email:string): Observable<boolean>{
+    return this.http.get<boolean>(`${this.pathService}/${email}`);
+  }
 }
