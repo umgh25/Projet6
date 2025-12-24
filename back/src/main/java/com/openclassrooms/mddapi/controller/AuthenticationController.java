@@ -70,4 +70,9 @@ public class AuthenticationController {
         log.info("User retrieved successfully");
         return  user;
     }
+
+    @GetMapping("/{userMail}")
+    public Boolean checkIfEmailAlreadyTaken(@PathVariable String userMail){
+        return this.userService.isEmailAlreadyTaken(userMail);
+    }
 }

@@ -67,6 +67,10 @@ public class UserServiceImpl implements UserService{
         return this.userMapper.asUserDto(user);
     }
 
+    @Override
+    public Boolean isEmailAlreadyTaken(String userMail) {
+        return this.findUserByMail(userMail).isPresent();}
+
     /**
      * Check if user is already registered
      * @param email user's email

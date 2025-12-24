@@ -20,4 +20,6 @@ public interface UserService {
 
     UserDto findUser()  throws ResourceNotFoundException;
 
+    Boolean isEmailAlreadyTaken(String userMail);
+
 }
