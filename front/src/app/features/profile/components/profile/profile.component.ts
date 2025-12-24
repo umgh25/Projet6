@@ -5,6 +5,7 @@ import { Topic } from '../../../posts/interfaces/topic.interface';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '../../../auth/interfaces/user.interface';
 import { SessionService } from '../../../../services/session.service';
+import { TopicService } from '../../../topics/services/topic.service';
 
 @Component({
   selector: 'app-profile',
@@ -13,7 +14,7 @@ import { SessionService } from '../../../../services/session.service';
 })
 export class ProfileComponent implements OnInit, OnDestroy{
 
-  constructor(private formBuilder: FormBuilder, private activatedRoute:ActivatedRoute, private sessionService: SessionService){}
+  constructor(private formBuilder: FormBuilder, private activatedRoute:ActivatedRoute, private sessionService: SessionService, private topicService: TopicService){}
 
   profileForm!: FormGroup;
   userSubscribedTopics$!: Observable<Topic[]>
@@ -26,7 +27,6 @@ export class ProfileComponent implements OnInit, OnDestroy{
       map(data => data['userSubscribedTopics'])
     )
     this.getUserInfo();
-    this.initForm();
   }
 
   private initForm(){
@@ -41,7 +41,13 @@ export class ProfileComponent implements OnInit, OnDestroy{
 
   }
 
-  public unSubscribe(topicId:string){}
+  public topicUnSubscribe(topicId:string){
+    this.topicService.topicUnsubscribe(topicId).subscribe(
+      response => {
+        this.userSubscribedTopics$ = this.topicService.getUserSubscribedTopics();
+      }
+    );
+  }
 
   private getUserInfo(){
     this.sessionService.$user()
