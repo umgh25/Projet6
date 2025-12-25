@@ -10,9 +10,9 @@ export class CustomValidatorService {
 
   constructor(private authService: AuthService) { }
 
-  emailTakenValidator(): AsyncValidatorFn {
+  emailTakenValidator(currentEmail:string|undefined): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      if (!control.value) return of(null);
+      if (!control.value || control.value === currentEmail) return of(null);
       return this.authService.checkIfEmailIsAlreadyTaken(control.value).pipe(
         map(isTaken => (isTaken ? { emailTaken: true } : null)),
         catchError(() => of(null))
@@ -20,9 +20,9 @@ export class CustomValidatorService {
     };
   }
 
-  userNameTakenValidator(): AsyncValidatorFn {
+  userNameTakenValidator(currentUserName:string|undefined): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      if (!control.value) return of(null);
+      if (!control.value || control.value === currentUserName) return of(null);
       return this.authService.checkIfEmailIsAlreadyTaken(control.value).pipe(
         map(isTaken => (isTaken ? { userNameTaken: true } : null)),
         catchError(() => of(null))
