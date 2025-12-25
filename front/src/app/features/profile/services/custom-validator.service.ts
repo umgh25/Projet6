@@ -19,4 +19,14 @@ export class CustomValidatorService {
       );
     };
   }
+
+  userNameTakenValidator(): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      if (!control.value) return of(null);
+      return this.authService.checkIfEmailIsAlreadyTaken(control.value).pipe(
+        map(isTaken => (isTaken ? { userNameTaken: true } : null)),
+        catchError(() => of(null))
+      );
+    };
+  }
 }

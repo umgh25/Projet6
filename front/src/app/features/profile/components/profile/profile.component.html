@@ -7,6 +7,9 @@
       @if(profileForm.get('username')?.hasError("required") && profileForm.get('username')?.touched) {
         <mat-error>Champs obligatoire</mat-error>
       }
+      @if(profileForm.get('username')?.hasError("userNameTaken") && profileForm.get('username')?.touched) {
+        <mat-error>Ce nom d'utilisateur appartient déjà à un compte</mat-error>
+      }
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Email</mat-label>
