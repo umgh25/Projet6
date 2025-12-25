@@ -71,6 +71,10 @@ public class UserServiceImpl implements UserService{
     public Boolean isEmailAlreadyTaken(String userMail) {
         return this.findUserByMail(userMail).isPresent();}
 
+    @Override
+    public Boolean isUserNameAlreadyTaken(String userName){
+        return this.userRepository.findByUserName(userName).isPresent();
+    }
     /**
      * Check if user is already registered
      * @param email user's email

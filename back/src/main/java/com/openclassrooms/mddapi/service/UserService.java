@@ -22,4 +22,6 @@ public interface UserService {
 
     Boolean isEmailAlreadyTaken(String userMail);
 
+    Boolean isUserNameAlreadyTaken(String userName);
+
 }
