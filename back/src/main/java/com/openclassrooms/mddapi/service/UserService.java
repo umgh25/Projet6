@@ -14,6 +14,8 @@ public interface UserService {
 
     User updateUser(User user);
 
+    User updateUser(UserDto user) throws UserAlreadyRegisteredException, ResourceNotFoundException;
+
     Optional<User> findUserByMail(String email);
 
     User getLoggedUser() throws ResourceNotFoundException;

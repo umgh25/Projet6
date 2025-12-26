@@ -51,6 +51,13 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public User updateUser(UserDto user) throws UserAlreadyRegisteredException, ResourceNotFoundException {
+        User userToUpdate = this.findUserByMail(user.getEmail()).orElseThrow(ResourceNotFoundException::new);
+        User userUpdated = this.updateUser(userToUpdate,user);
+        return this.userRepository.save(userUpdated);
+    }
+
+    @Override
     public Optional<User> findUserByMail(String email) {
         return this.userRepository.findByEmail(email);
     }
@@ -88,5 +95,30 @@ public class UserServiceImpl implements UserService{
             log.error("User is already registered");
             throw new UserAlreadyRegisteredException();
         }
+    }
+
+    private User updateUser(User existitingUser, UserDto user) throws UserAlreadyRegisteredException {
+        if(!existitingUser.getUserName().equals(user.getUserName())){
+            log.info("Username has changed, update user with username {}", user.getUserName());
+            if (isUserNameAlreadyTaken(user.getUserName())) {
+                throw new UserAlreadyRegisteredException();
+            }
+            existitingUser.setUserName((user.getUserName()));
+        }
+
+        if(!existitingUser.getEmail().equals(user.getEmail())) {
+            log.info("Email has changed, update user with email {}", user.getEmail());
+            if (isEmailAlreadyTaken(user.getEmail())) {
+                throw new UserAlreadyRegisteredException();
+            }
+            existitingUser.setEmail(user.getEmail());
+        }
+
+        if (user.getPassword() != null && !user.getPassword().isEmpty() && !passwordEncoder.matches(existitingUser.getPassword(), user.getPassword())){
+            log.info("Password has changed, update user with password {}", user.getPassword());
+            existitingUser.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+        log.info("{} {} {}", existitingUser.getUserName(), existitingUser.getEmail());
+        return existitingUser;
     }
 }

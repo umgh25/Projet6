@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from '../../auth/services/auth.service';
-import { AbstractControl, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
+import {AbstractControl, AsyncValidatorFn, ValidationErrors, ValidatorFn} from '@angular/forms';
 import { catchError, map, Observable, of } from 'rxjs';
 
 @Injectable({
@@ -28,5 +28,20 @@ export class CustomValidatorService {
         catchError(() => of(null))
       );
     };
+  }
+  passwordValidator(): ValidatorFn {
+    return (control:AbstractControl) : ValidationErrors | null => {
+      const value = control.value;
+      if (!value) {
+        return null;
+      }
+      const hasUpperCase = /[A-Z]+/.test(value);
+      const hasLowerCase = /[a-z]+/.test(value);
+      const hasNumeric = /[0-9]+/.test(value);
+      const hasSpecialCharacter = /[&!=+]+/.test(value);
+      const hasMinLength = value.length >= 8;
+      const passwordValid = hasUpperCase && hasLowerCase && hasNumeric && hasSpecialCharacter && hasMinLength;
+      return !passwordValid ? {passwordStrength:true}: null;
+    }
   }
 }

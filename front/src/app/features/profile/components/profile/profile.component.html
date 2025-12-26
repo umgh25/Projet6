@@ -3,11 +3,11 @@
   <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
     <mat-form-field appearance="outline" class="field">
       <mat-label>Username</mat-label>
-      <input matInput type="text" formControlName="username">
-      @if(profileForm.get('username')?.hasError("required") && profileForm.get('username')?.touched) {
+      <input matInput type="text" formControlName="userName">
+      @if(profileForm.get('userName')?.hasError("required") && profileForm.get('userName')?.touched) {
         <mat-error>Champs obligatoire</mat-error>
       }
-      @if(profileForm.get('username')?.hasError("userNameTaken") && profileForm.get('username')?.touched) {
+      @if(profileForm.get('userName')?.hasError("userNameTaken") && profileForm.get('userName')?.touched) {
         <mat-error>Ce nom d'utilisateur appartient déjà à un compte</mat-error>
       }
     </mat-form-field>
@@ -26,6 +26,9 @@
       <input matInput type="password" formControlName="password">
       @if(profileForm.get('password')?.hasError("required") && profileForm.get('password')?.touched) {
         <mat-error>Champs obligatoire</mat-error>
+      }
+      @if(profileForm.get('password')?.hasError("passwordStrength") && profileForm.get('password')?.touched) {
+        <mat-error>Le mot de passe doit comporter une majuscule, une minuscule, un chiffre, un caractere special et au moins 8 caractères</mat-error>
       }
     </mat-form-field>
     <div class="button-container">

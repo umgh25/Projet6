@@ -7,6 +7,7 @@ import { User } from '../../../auth/interfaces/user.interface';
 import { SessionService } from '../../../../services/session.service';
 import { TopicService } from '../../../topics/services/topic.service';
 import { CustomValidatorService } from '../../services/custom-validator.service';
+import { ProfileService } from '../../services/profile.service';
 
 @Component({
   selector: 'app-profile',
@@ -15,7 +16,7 @@ import { CustomValidatorService } from '../../services/custom-validator.service'
 })
 export class ProfileComponent implements OnInit, OnDestroy{
 
-  constructor(private formBuilder: FormBuilder, private activatedRoute:ActivatedRoute, private sessionService: SessionService, private topicService: TopicService, private customValidatorService : CustomValidatorService){}
+  constructor(private formBuilder: FormBuilder, private activatedRoute:ActivatedRoute, private sessionService: SessionService, private topicService: TopicService, private customValidatorService : CustomValidatorService, private profilService: ProfileService){}
 
   profileForm!: FormGroup;
   userSubscribedTopics$!: Observable<Topic[]>
@@ -32,22 +33,27 @@ export class ProfileComponent implements OnInit, OnDestroy{
 
   private initForm(){
     this.profileForm = this.formBuilder.group({
-      username:[this.user?.userName ? this.user?.userName : "", {
+      userName:[this.user?.userName ? this.user?.userName : "", {
         validators: [Validators.required],
         asyncValidators: [this.customValidatorService.userNameTakenValidator(this.user?.userName)],
-        updateOn:'blur'
       }],
       email:[this.user?.email ? this.user.email : "", {
         validators: [Validators.required, Validators.email],
-        asyncValidators: [this.customValidatorService.userNameTakenValidator(this.user?.userName)],
-        updateOn:'blur'
+        asyncValidators: [this.customValidatorService.emailTakenValidator(this.user?.email)],
       }],
-      password:["", Validators.required]
+      password:["", this.customValidatorService.passwordValidator()]
     })
   }
 
   public onSubmit(){
-
+    this.profileForm.updateValueAndValidity();
+    if(this.profileForm.valid) {
+      const userUpdated = this.profileForm.getRawValue() as User;
+      console.log(this.user);
+      this.profilService.updateProfil(userUpdated).subscribe();
+    } else {
+      this.profileForm.markAllAsTouched();
+    }
   }
 
   public topicUnSubscribe(topicId:string){
