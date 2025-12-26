@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User updateUser(UserDto user) throws UserAlreadyRegisteredException, ResourceNotFoundException {
-        User userToUpdate = this.findUserByMail(user.getEmail()).orElseThrow(ResourceNotFoundException::new);
+        User userToUpdate = this.getLoggedUser();
         User userUpdated = this.updateUser(userToUpdate,user);
         return this.userRepository.save(userUpdated);
     }

@@ -49,8 +49,9 @@ export class ProfileComponent implements OnInit, OnDestroy{
     this.profileForm.updateValueAndValidity();
     if(this.profileForm.valid) {
       const userUpdated = this.profileForm.getRawValue() as User;
-      console.log(this.user);
-      this.profilService.updateProfil(userUpdated).subscribe();
+      this.profilService.updateProfil(userUpdated).subscribe(
+        response => this.profileForm.get("password")?.reset()
+      );
     } else {
       this.profileForm.markAllAsTouched();
     }
