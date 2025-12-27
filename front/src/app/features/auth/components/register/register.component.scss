@@ -29,3 +29,18 @@ h2 {
 .arrow{
   position: absolute;
 }
+
+@media (max-width: 768px) {
+  #register {
+    height: 50%;
+    justify-content: space-around;
+  }
+
+  h2 {
+    margin-bottom: 10%;
+  }
+
+  .arrow {
+    top: 0;
+  }
+}

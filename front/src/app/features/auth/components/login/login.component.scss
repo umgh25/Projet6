@@ -35,3 +35,18 @@ h2 {
 .arrow{
   position: absolute;
 }
+
+@media (max-width: 768px) {
+  #login {
+    height: 40%;
+    justify-content: space-around;
+  }
+
+  .arrow {
+    top: 0;
+  }
+
+  h2 {
+    margin-bottom: 10%;
+  }
+}
