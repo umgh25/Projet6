@@ -60,6 +60,10 @@ button {
   text-overflow: ellipsis;
 }
 
+button:disabled svg {
+  fill: rgb(16,16,16,0.3);
+}
+
 @media (max-width: 768px) {
   .card {
     flex: 1 1 auto;

@@ -56,6 +56,10 @@ hr {
   text-overflow: ellipsis;
 }
 
+.info-message {
+  text-align: center;
+}
+
 @media (max-width: 768px) {
   #profile {
     width: 100%;
@@ -70,11 +74,13 @@ hr {
   }
 
   button {
-    flex: 0 0 50%
+    flex: 0 0 50%;
+    margin-top: 8%;
   }
 
   .topics-container {
     flex-direction: column;
+    flex-wrap: nowrap;
   }
 }
 
