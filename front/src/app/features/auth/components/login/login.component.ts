@@ -15,6 +15,7 @@ import { User } from '../../interfaces/user.interface';
 export class LoginComponent {
 
   loginForm!: FormGroup;
+  errorMessage: string = '';
 
 
   constructor(private formBuilder: FormBuilder, private authService: AuthService, private sessionService : SessionService, private router: Router) {}
@@ -34,13 +35,17 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       const loginrequest = this.loginForm.getRawValue();
       this.authService.login(loginrequest)
-        .subscribe((response:AuthSuccess) => {
-          localStorage.setItem('token', response.token);
-          this.authService.getUserInfo().subscribe(response => {
-            this.sessionService.login(response);
-            this.router.navigate(['/post/list']);
-          })
-        })
+        .subscribe(
+          {
+            next: response => {
+              localStorage.setItem('token', response.token);
+              this.authService.getUserInfo().subscribe(response => {
+                this.sessionService.login(response);
+                this.router.navigate(['/post/list']);
+              })
+            },
+            error : err => this.errorMessage = "Veuillez vérifier vos identifiants de connexion."
+          });
     } else {
       this.loginForm.markAllAsTouched();
     }

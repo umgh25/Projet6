@@ -36,6 +36,12 @@ h2 {
   position: absolute;
 }
 
+.error {
+  margin-top: 2%;
+  font-size: 1.2em;
+  color: rgb(133, 8, 8);
+}
+
 @media (max-width: 768px) {
   #login {
     height: 40%;
