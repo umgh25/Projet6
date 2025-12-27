@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-new-post',
   templateUrl: './new-post.component.html',
-  styleUrls: ['./new-post.component.scss'],
+  styleUrls: ['./new-post.component.scss',]
 })
 export class NewPostComponent implements OnInit {
   newPostForm!: FormGroup;
@@ -52,5 +52,9 @@ export class NewPostComponent implements OnInit {
     } else {
       this.newPostForm.markAllAsTouched();
     }
+  }
+
+  public goBack(){
+    window.history.back();
   }
 }
