@@ -26,7 +26,7 @@ export class TopicsComponent implements OnInit {
   }
 
   public subscribe(topicId: string): void {
-    this.topicService.subscribe(topicId)
+    this.topicService.topicSubscribe(topicId)
       .pipe(take(1))
       .subscribe(() => {
         this.reloadTopics();

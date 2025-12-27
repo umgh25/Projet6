@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SessionService } from '../../../../services/session.service';
 import { AuthSuccess } from '../../interfaces/auth-success';
+import { Observable } from 'rxjs';
+import { User } from '../../interfaces/user.interface';
 
 @Component({
   selector: 'app-login',
@@ -13,6 +15,7 @@ import { AuthSuccess } from '../../interfaces/auth-success';
 export class LoginComponent {
 
   loginForm!: FormGroup;
+
 
   constructor(private formBuilder: FormBuilder, private authService: AuthService, private sessionService : SessionService, private router: Router) {}
 
@@ -30,14 +33,19 @@ export class LoginComponent {
   onSubmit(): void {
     if (this.loginForm.valid) {
       const loginrequest = this.loginForm.getRawValue();
-      this.authService.login(loginrequest).subscribe((response:AuthSuccess) => {
-        localStorage.setItem('token', response.token);
-        this.sessionService.login();
-        this.router.navigate(['/post/list'])
-      })
+      this.authService.login(loginrequest)
+        .subscribe((response:AuthSuccess) => {
+          localStorage.setItem('token', response.token);
+          this.authService.getUserInfo().subscribe(response => {
+            this.sessionService.login(response);
+            this.router.navigate(['/post/list']);
+          })
+        })
     } else {
       this.loginForm.markAllAsTouched();
     }
   }
+
+
 
 }

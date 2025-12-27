@@ -33,8 +33,11 @@ export class RegisterComponent implements OnInit {
       const registerRequest = this.registerForm.getRawValue();
       this.authService.register(registerRequest).subscribe((response:AuthSuccess) => {
         localStorage.setItem('token', response.token);
-        this.sessionService.login();
-        this.router.navigate(['/post/list'])
+        this.authService.getUserInfo().subscribe(response => {
+          this.sessionService.login(response);
+          this.router.navigate(['/post/list'])
+        })
+
       })
     } else {
       this.registerForm.markAllAsTouched();

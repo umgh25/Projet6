@@ -21,7 +21,15 @@ export class TopicService {
 
   }
 
-  public subscribe(topicId:string): Observable<void> {
+  public topicSubscribe(topicId:string): Observable<void> {
     return this.http.post<void>(`${this.pathService}/${topicId}`, null);
+  }
+
+  public topicUnsubscribe(topicId:string): Observable<void> {
+    return this.http.delete<void>(`${this.pathService}/${topicId}`);
+  }
+
+  public getUserSubscribedTopics(): Observable<Topic[]> {
+    return this.http.get<Topic[]>(`${this.pathService}/subscribed`)
   }
 }

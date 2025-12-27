@@ -22,6 +22,7 @@
 		<java.version>17</java.version>
 		<mapstruct.version>1.6.3</mapstruct.version>
 		<lombok.version>1.18.32</lombok.version>
+		<lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
 	</properties>
 
 	<dependencies>
@@ -109,6 +110,13 @@
 
 					<annotationProcessorPaths>
 
+						<!-- Lombok processor -->
+						<annotationProcessorPath>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<version>${lombok.version}</version>
+						</annotationProcessorPath>
+
 						<!-- MapStruct processor -->
 						<annotationProcessorPath>
 							<groupId>org.mapstruct</groupId>
@@ -116,11 +124,11 @@
 							<version>${mapstruct.version}</version>
 						</annotationProcessorPath>
 
-						<!-- Lombok processor -->
+						<!-- Lombok-MapStruct binding -->
 						<annotationProcessorPath>
 							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-							<version>${lombok.version}</version>
+							<artifactId>lombok-mapstruct-binding</artifactId>
+							<version>${lombok-mapstruct-binding.version}</version>
 						</annotationProcessorPath>
 
 					</annotationProcessorPaths>

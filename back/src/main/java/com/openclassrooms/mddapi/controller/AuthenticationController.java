@@ -3,6 +3,8 @@ package com.openclassrooms.mddapi.controller;
 import com.openclassrooms.mddapi.dto.AuthSuccessDto;
 import com.openclassrooms.mddapi.dto.LoginRequestDto;
 import com.openclassrooms.mddapi.dto.RegisterRequestDto;
+import com.openclassrooms.mddapi.dto.UserDto;
+import com.openclassrooms.mddapi.exception.ResourceNotFoundException;
 import com.openclassrooms.mddapi.exception.UserAlreadyRegisteredException;
 import com.openclassrooms.mddapi.service.AuthenticationService;
 import com.openclassrooms.mddapi.service.JwtService;
@@ -12,10 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -64,4 +63,21 @@ public class AuthenticationController {
         return new ResponseEntity<>(token, HttpStatus.OK);
     }
 
+    @GetMapping("/me")
+    public UserDto userInfo() throws ResourceNotFoundException {
+        log.info("GET api/auth/me called -> start the process to get user info");
+        UserDto user =  this.userService.findUser();
+        log.info("User retrieved successfully");
+        return  user;
+    }
+
+    @GetMapping("email/{userMail}")
+    public Boolean checkIfEmailAlreadyTaken(@PathVariable String userMail){
+        return this.userService.isEmailAlreadyTaken(userMail);
+    }
+
+    @GetMapping("username/{userName}")
+    public Boolean checkIfUserNameAlreadyTaken(@PathVariable String userName){
+        return this.userService.isUserNameAlreadyTaken(userName);
+    }
 }
