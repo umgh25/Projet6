@@ -39,7 +39,7 @@ h2 {
 .error {
   margin-top: 2%;
   font-size: 1.2em;
-  color: rgb(133, 8, 8);
+  color: #ba1a1a;
 }
 
 @media (max-width: 768px) {
@@ -58,5 +58,10 @@ h2 {
 
   button {
     margin-top: 8%;
+  }
+
+  .error {
+    font-size: 1em;
+    color: #ba1a1a;
   }
 }

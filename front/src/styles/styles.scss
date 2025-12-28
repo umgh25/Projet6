@@ -6,6 +6,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 :root {
   --mdc-theme-primary: #7763C5;
   --mdc-theme-on-primary: white;
+  --mat-app-primary: white;
 }
 
 .mat-mdc-raised-button:not(:disabled) {
@@ -20,7 +21,14 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   border-radius: 10px!important;
 }
 
+.mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused .mat-mdc-notch-piece {
+  border-color: var(--mdc-theme-primary)!important;
+}
 
-.mat-mdc-tex-field {
-  width: 400px;
+.mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused .mdc-floating-label {
+  color: var(--mdc-theme-primary)!important;
+}
+
+.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field .mdc-notched-outline__notch {
+  border-left: 0px!important;
 }
