@@ -32,7 +32,7 @@
 
 
 .active-link {
-  color: #7763C5;
+  color: var(--mdc-theme-primary);
   text-decoration: none;
 }
 
@@ -46,7 +46,7 @@ svg{
 }
 
 .svg-active-link svg{
-  fill: #7763C5;
+  color: var(--mdc-theme-primary);
 }
 
 #logo {

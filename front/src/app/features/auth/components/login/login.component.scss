@@ -34,6 +34,8 @@ h2 {
 
 .arrow{
   position: absolute;
+  background-color: white;
+  border: none;
 }
 
 .error {
@@ -41,6 +43,7 @@ h2 {
   font-size: 1.2em;
   color: #ba1a1a;
 }
+
 
 @media (max-width: 768px) {
   #login {
@@ -52,11 +55,16 @@ h2 {
     top: 0;
   }
 
+  svg {
+    height: 80px;
+    width: 80px;
+  }
+
   h2 {
     margin-bottom: 10%;
   }
 
-  button {
+  .login-button {
     margin-top: 8%;
   }
 

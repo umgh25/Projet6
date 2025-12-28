@@ -46,4 +46,7 @@ export class RegisterComponent implements OnInit {
     }
   }
 
+  public goBack(){
+    window.history.back();
+  }
 }

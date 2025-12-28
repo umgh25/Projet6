@@ -28,7 +28,10 @@ h2 {
 
 .arrow{
   position: absolute;
+  background-color: white;
+  border: none;
 }
+
 
 @media (max-width: 768px) {
   #register {
@@ -44,7 +47,12 @@ h2 {
     top: 0;
   }
 
-  button {
+  svg {
+    height: 80px;
+    width: 80px;
+  }
+
+  .register-button {
     width: 50%;
     margin-top: 12%;
   }

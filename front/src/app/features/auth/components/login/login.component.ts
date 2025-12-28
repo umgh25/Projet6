@@ -51,7 +51,8 @@ export class LoginComponent {
       this.loginForm.markAllAsTouched();
     }
   }
-
-
+  public goBack(){
+    window.history.back();
+  }
 
 }
