@@ -6,6 +6,7 @@ import { Topic } from '../../../interfaces/topic.interface';
 import { CreatePost } from '../../../interfaces/createPost.interface';
 import { PostService } from '../../../services/post.service';
 import { Router } from '@angular/router';
+import { FormValidationErrorService } from '../../../../../shared/services/form-validation-error.service';
 
 @Component({
   selector: 'app-new-post',
@@ -20,7 +21,8 @@ export class NewPostComponent implements OnInit {
     private formBuilder: FormBuilder,
     private topicService: TopicService,
     private postService: PostService,
-    private router: Router
+    private router: Router,
+    public formValidationError: FormValidationErrorService
   ) {}
 
   ngOnInit(): void {

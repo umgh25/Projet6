@@ -6,6 +6,7 @@ import { SessionService } from '../../../../services/session.service';
 import { AuthSuccess } from '../../interfaces/auth-success';
 import { Observable } from 'rxjs';
 import { User } from '../../interfaces/user.interface';
+import { FormValidationErrorService } from '../../../../shared/services/form-validation-error.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,7 @@ export class LoginComponent {
   errorMessage: string = '';
 
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService, private sessionService : SessionService, private router: Router) {}
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private sessionService : SessionService, private router: Router, public formValidationError: FormValidationErrorService) {}
 
   ngOnInit(): void {
     this.initForm();

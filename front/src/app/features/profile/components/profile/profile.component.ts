@@ -8,6 +8,7 @@ import { SessionService } from '../../../../services/session.service';
 import { TopicService } from '../../../topics/services/topic.service';
 import { CustomValidatorService } from '../../../../shared/services/custom-validator.service';
 import { ProfileService } from '../../services/profile.service';
+import { FormValidationErrorService } from '../../../../shared/services/form-validation-error.service';
 
 @Component({
   selector: 'app-profile',
@@ -16,7 +17,7 @@ import { ProfileService } from '../../services/profile.service';
 })
 export class ProfileComponent implements OnInit, OnDestroy{
 
-  constructor(private formBuilder: FormBuilder, private activatedRoute:ActivatedRoute, private sessionService: SessionService, private topicService: TopicService, private customValidatorService : CustomValidatorService, private profilService: ProfileService){}
+  constructor(private formBuilder: FormBuilder, private activatedRoute:ActivatedRoute, private sessionService: SessionService, private topicService: TopicService, private customValidatorService : CustomValidatorService, private profilService: ProfileService, public formValidationError: FormValidationErrorService){}
 
   profileForm!: FormGroup;
   userSubscribedTopics$!: Observable<Topic[]>

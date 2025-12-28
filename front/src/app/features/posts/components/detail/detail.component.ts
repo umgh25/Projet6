@@ -5,6 +5,7 @@ import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 import { Comment } from '../../interfaces/comment.interface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PostService } from '../../services/post.service';
+import { FormValidationErrorService } from '../../../../shared/services/form-validation-error.service';
 
 @Component({
   selector: 'app-detail',
@@ -17,7 +18,7 @@ export class DetailComponent implements OnInit {
   commentForm!: FormGroup;
   postId!: string | null;
 
-  constructor(private route: ActivatedRoute, private formBuilder: FormBuilder, private postService: PostService) {}
+  constructor(private route: ActivatedRoute, private formBuilder: FormBuilder, private postService: PostService, public formValidationService: FormValidationErrorService) {}
 
   ngOnInit(): void {
     this.post$ = this.route.data.pipe(map((data) => data['post']));

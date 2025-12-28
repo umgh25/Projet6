@@ -6,21 +6,21 @@
       <label for="userName">Nom d'utilisateur</label>
       <mat-form-field appearance="outline">
         <input matInput id="userName" formControlName="userName">
-        <mat-error class="text-danger" *ngIf="registerForm.get('userName')?.hasError('required') && registerForm.get('userName')?.touched">Champ obligatoire</mat-error>
+        <mat-error class="text-danger" *ngIf="!registerForm.get('userName')?.valid && registerForm.get('userName')?.touched">{{formValidationError.getErrorMessage(registerForm, 'userName')}}</mat-error>
       </mat-form-field>
     </div>
     <div class="field">
       <label for="email">Email</label>
       <mat-form-field appearance="outline">
         <input matInput id="email" type="email" formControlName="email">
-        <mat-error class="text-danger" *ngIf="registerForm.get('email')?.hasError('required') && registerForm.get('email')?.touched">Champ obligatoire</mat-error>
+        <mat-error class="text-danger" *ngIf="!registerForm.get('email')?.valid && registerForm.get('email')?.touched">{{formValidationError.getErrorMessage(registerForm, 'email')}}</mat-error>
       </mat-form-field>
     </div>
     <div class="field">
       <label for="password">Mot de passe</label>
       <mat-form-field appearance="outline">
         <input matInput id="password" type="password" formControlName="password">
-        <mat-error class="text-danger" *ngIf="registerForm.get('password')?.hasError('required') && registerForm.get('password')?.touched">Champ obligatoire</mat-error>
+        <mat-error class="text-danger" *ngIf="!registerForm.get('password')?.valid && registerForm.get('password')?.touched">{{formValidationError.getErrorMessage(registerForm, 'password')}}</mat-error>
       </mat-form-field>
     </div>
     <button id="button" type="submit" mat-raised-button color="primary">S'inscrire</button>

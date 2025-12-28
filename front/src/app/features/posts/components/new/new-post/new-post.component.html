@@ -9,22 +9,22 @@
           <mat-option [value]="topic.id">{{topic.title}}</mat-option>
         }
       </mat-select>
-      @if(newPostForm.get('topicId')?.hasError("required") && newPostForm.get('topicId')?.touched) {
-        <mat-error>Champs obligatoire</mat-error>
+      @if(!newPostForm.get('topicId')?.valid && newPostForm.get('topicId')?.touched) {
+        <mat-error>{{formValidationError.getErrorMessage(newPostForm, 'topicId')}}</mat-error>
       }
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Titre de l'article</mat-label>
       <input matInput formControlName="title">
-      @if(newPostForm.get('title')?.hasError("required") && newPostForm.get('title')?.touched) {
-        <mat-error>Champs obligatoire</mat-error>
+      @if(!newPostForm.get('title')?.valid && newPostForm.get('title')?.touched) {
+        <mat-error>{{formValidationError.getErrorMessage(newPostForm, 'title')}}</mat-error>
       }
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Contenu de l'article</mat-label>
       <textarea rows="5" matInput formControlName="content"></textarea>
-      @if(newPostForm.get('content')?.hasError("required") && newPostForm.get('content')?.touched) {
-        <mat-error>Champs obligatoire</mat-error>
+      @if(!newPostForm.get('content')?.valid && newPostForm.get('content')?.touched) {
+        <mat-error>{{formValidationError.getErrorMessage(newPostForm, 'content')}}</mat-error>
       }
     </mat-form-field>
     <div class="button-container">
