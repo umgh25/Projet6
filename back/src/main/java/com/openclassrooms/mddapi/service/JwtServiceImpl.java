@@ -21,6 +21,12 @@ public class JwtServiceImpl implements JwtService {
         this.jwtEncoder = jwtEncoder;
     }
 
+    /**
+     * Generates a token.
+     *
+     * @param email, the user mail.
+     * @return jwt token as a string
+     */
     @Override
     public String generateJwtToken(String email) {
         log.info("Generate jwt token");

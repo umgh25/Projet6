@@ -27,6 +27,13 @@ public class CommentServiceImpl implements CommentService  {
         this.userService = userService;
     }
 
+    /**
+     * Save new comment
+     *
+     * @param commentDto new comment
+     * @param username
+     * @return the saved comment
+     */
     @Override
     public Comment save(CommentDto commentDto, String username) {
         log.info("Try to save new comment");
@@ -37,6 +44,12 @@ public class CommentServiceImpl implements CommentService  {
         return this.commentRepository.save(commentToSave);
     }
 
+    /**
+     * Find all comments on a post based on post ID
+     *
+     * @param id post id
+     * @return a list of comments
+     */
     @Override
     public List<CommentDto> findCommentsByPostId(Long id) {
         return commentMapper.asCommentDtos(this.commentRepository.findByPostId(id));
