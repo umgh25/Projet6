@@ -37,8 +37,8 @@ export class NewPostComponent implements OnInit {
   private initForm() {
     this.newPostForm = this.formBuilder.group({
       topicId: ['', Validators.required],
-      title: ['', Validators.required],
-      content: ['', Validators.required],
+      title: ['', [Validators.required, Validators.minLength(2)]],
+      content: ['', [Validators.required, Validators.minLength(20)]]
     });
   }
 

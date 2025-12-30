@@ -1,6 +1,8 @@
 package com.openclassrooms.mddapi.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,6 +27,8 @@ public class User {
     private String password;
 
     @Column(nullable = false, unique = true)
+    @NotBlank
+    @Size(min = 3)
     private String userName;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)

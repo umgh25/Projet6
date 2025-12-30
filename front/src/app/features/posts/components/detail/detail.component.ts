@@ -29,7 +29,7 @@ export class DetailComponent implements OnInit {
   private initForm(){
     this.commentForm = this.formBuilder.group({
       postId:[this.postId, Validators.required],
-      content:["", Validators.required]
+      content:["", [Validators.required, Validators.minLength(3)]]
     });
   }
 

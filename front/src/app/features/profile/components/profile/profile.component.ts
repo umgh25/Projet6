@@ -35,7 +35,7 @@ export class ProfileComponent implements OnInit, OnDestroy{
   private initForm(){
     this.profileForm = this.formBuilder.group({
       userName:[this.user?.userName ? this.user?.userName : "", {
-        validators: [Validators.required],
+        validators: [Validators.required, Validators.minLength(3)],
         asyncValidators: [this.customValidatorService.userNameTakenValidator(this.user?.userName)],
       }],
       email:[this.user?.email ? this.user.email : "", {
