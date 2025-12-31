@@ -3,15 +3,15 @@ import { FormGroup } from '@angular/forms';
 import { forkJoin } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FormValidationErrorService {
 
   constructor() { }
 
-  public getErrorMessage (form: FormGroup, field: string): string | null  {
-    console.log(form.get(field)?.errors)
-    if(form.get(field)?.hasError('required')) {
+  public getErrorMessage(form: FormGroup, field: string): string | null {
+    console.log(form.get(field)?.errors);
+    if (form.get(field)?.hasError('required')) {
       return 'Champ obligatoire';
     } else if (form.get(field)?.hasError('email')) {
       return "Format d’email invalide";
@@ -20,7 +20,10 @@ export class FormValidationErrorService {
     } else if (form.get(field)?.hasError('userNameTaken')) {
       return "Ce nom d’utilisateur appartient déjà à un compte";
     } else if (form.get(field)?.hasError('emailTaken')) {
-      return "Cet email appartient déjà à un compte";
+      return 'Cet email appartient déjà à un compte';
+    } else if (form.get(field)?.hasError('minlength')) {
+      let requiredLength = form.get(field)?.errors?.['minlength']?.requiredLength;
+      return `Ce champs doit avoir ${requiredLength} caractères minimum`;
     } else {
       return null;
     }
