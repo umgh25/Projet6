@@ -2,10 +2,12 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {HomeComponent} from "./shared/components/home/home.component";
 import { AuthGuard } from './guards/auth.guard';
+import { alreadyLoggedInGuard } from './guards/already-logged-in.guard';
 
 const routes: Routes = [
   {
     path:'',
+    canActivate:[alreadyLoggedInGuard],
     component: HomeComponent
   },
   {

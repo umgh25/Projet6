@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import {
-  Router,
   Resolve,
   RouterStateSnapshot,
   ActivatedRouteSnapshot,
 } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable} from 'rxjs';
 import { PostService } from '../services/post.service';
 import { Post } from '../interfaces/post.interface';
 
@@ -19,7 +18,7 @@ export class PostDetailResolver implements Resolve<Post> {
     const id = route.paramMap.get('id');
 
     if (!id) {
-      return of();
+      return EMPTY;
     }
 
     return this.postService.getPostById(id);

@@ -28,7 +28,6 @@ export class SessionService {
   public login(user:User|undefined):void {
     this.user = user;
     this.isLogged = true;
-    console.log(this.user)
     this.next();
   }
 
