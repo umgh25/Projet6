@@ -1,7 +1,7 @@
 @if(showToolbar) {
   <ng-container>
     <mat-toolbar id="toolbar" >
-      <img class="logo" src="assets/logo_p6.png" alt="logo">
+      <img class="logo" src="../../../assets/logo_p6.png" alt="logo">
       @if(isLogged && !isMobileResolution) {
         <div class="links">
           <button (click)="logout()" class="logout-link link">Se déconnecter</button>
@@ -28,6 +28,6 @@
   </ng-container>
 } @else if(isMobileResolution && !isLogged) {
   <div id="logo">
-    <img src="assets/logo_p6.png" alt="logo">
+    <img src="../../../assets/logo_p6.png" alt="logo">
   </div>
 }

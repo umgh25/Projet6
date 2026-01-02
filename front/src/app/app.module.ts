@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { HomeComponent } from './components/home/home.component';
 import { NgOptimizedImage } from "@angular/common";
-import { HeaderComponent } from './shared/components/header/header.component';
+import { HeaderComponent } from './components/header/header.component';
 import  {MatToolbarModule } from "@angular/material/toolbar";
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { NotFoundComponent } from './components/not-found/not-found.component';
