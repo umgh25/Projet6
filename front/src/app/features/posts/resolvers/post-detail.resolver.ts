@@ -5,7 +5,7 @@ import {
   ActivatedRouteSnapshot,
   Router,
 } from '@angular/router';
-import { catchError, EMPTY, Observable, of} from 'rxjs';
+import { catchError, EMPTY, Observable, of, throwError} from 'rxjs';
 import { PostService } from '../services/post.service';
 import { Post } from '../interfaces/post.interface';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -14,7 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   providedIn: 'root',
 })
 export class PostDetailResolver implements Resolve<Post> {
-  constructor(private postService: PostService, private matSnackBar: MatSnackBar, private router: Router) {}
+  constructor(private postService: PostService, private router: Router) {}
 
   resolve(route: ActivatedRouteSnapshot,state: RouterStateSnapshot): Observable<Post> {
     const id = route.paramMap.get('id');
@@ -25,14 +25,11 @@ export class PostDetailResolver implements Resolve<Post> {
 
     return this.postService.getPostById(id).pipe(
       catchError(error => {
-        this.exitPage();
-        return EMPTY;
+        if(error.status === 404) {
+          this.router.navigate(['404']);
+        }
+        return throwError(() => error);
       })
     );
-  }
-
-  private exitPage(): void {
-    this.matSnackBar.open("Post introuvable", 'Close', { duration: 3000 });
-    this.router.navigate(['/post/list']);
   }
 }

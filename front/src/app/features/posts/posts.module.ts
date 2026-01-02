@@ -12,7 +12,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { NewPostComponent } from './components/new/new-post/new-post.component';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [PostsComponent, DetailComponent, NewPostComponent],
@@ -25,8 +24,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
-    MatSelectModule,
-    MatSnackBarModule
+    MatSelectModule
   ],
 })
 export class PostsModule {}
