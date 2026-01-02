@@ -9,6 +9,13 @@ import com.openclassrooms.mddapi.exception.UserAlreadyRegisteredException;
 import com.openclassrooms.mddapi.service.AuthenticationService;
 import com.openclassrooms.mddapi.service.JwtService;
 import com.openclassrooms.mddapi.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -32,7 +39,11 @@ public class AuthenticationController {
         this.authenticationService = authenticationService;
     }
 
-
+    @Operation(summary = "Generate a token", description = "Generate a token when user tries to login if authenticated")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", content = {@Content(mediaType = "application/json",
+                    schema = @Schema(implementation = AuthSuccessDto.class))}),
+            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content)})
     @PostMapping("/login")
     public ResponseEntity<AuthSuccessDto> login(@Valid @RequestBody LoginRequestDto loginRequest) {
 
@@ -48,6 +59,12 @@ public class AuthenticationController {
         return new ResponseEntity<>(token, HttpStatus.OK);
     }
 
+    @Operation(summary = "Register a new user", description = "Register a new user in the database and generate a token for them")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", content = {@Content(mediaType = "application/json",
+                    schema = @Schema(implementation = AuthSuccessDto.class))}),
+            @ApiResponse(responseCode = "409", content = @Content(mediaType = "text/plain",
+                    examples = @ExampleObject(value="user already registered")))})
     @PostMapping("/register")
     public ResponseEntity<AuthSuccessDto> register(@Valid @RequestBody RegisterRequestDto registerRequest) throws UserAlreadyRegisteredException {
 
@@ -63,6 +80,12 @@ public class AuthenticationController {
         return new ResponseEntity<>(token, HttpStatus.OK);
     }
 
+    @Operation(summary = "Get user information", description = "Return logged in user information")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", content = {@Content(mediaType = "application/json",
+                    schema = @Schema(implementation = UserDto.class))}),
+            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content)})
+    @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping("/me")
     public UserDto userInfo() throws ResourceNotFoundException {
         log.info("GET api/auth/me called -> start the process to get user info");
@@ -71,13 +94,26 @@ public class AuthenticationController {
         return  user;
     }
 
+    @Operation(summary = "Check if email is already taken", description = "Return true if the email is already taken, otherwise false")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", content = {@Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Boolean.class))}),
+            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content)})
+    @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping("email/{userMail}")
     public Boolean checkIfEmailAlreadyTaken(@PathVariable String userMail){
         return this.userService.isEmailAlreadyTaken(userMail);
     }
 
+    @Operation(summary = "Check if email is already taken", description = "Return true if the username is already taken, otherwise false")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", content = {@Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Boolean.class))}),
+            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content)})
+    @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping("username/{userName}")
     public Boolean checkIfUserNameAlreadyTaken(@PathVariable String userName){
         return this.userService.isUserNameAlreadyTaken(userName);
     }
+
 }

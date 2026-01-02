@@ -23,7 +23,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<String> handleBadRequestException(BadRequestException ex) {
-        return new ResponseEntity<>("Bad request", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("bad request", HttpStatus.BAD_REQUEST);
     }
 
 }
