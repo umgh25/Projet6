@@ -10,7 +10,7 @@ import { HeaderComponent } from './components/header/header.component';
 import  {MatToolbarModule } from "@angular/material/toolbar";
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { NotFoundComponent } from './components/not-found/not-found.component';
-import { JwtInterceptor } from './interceptors/jwt.interceptor';
+import { JwtInterceptor } from './shared/interceptors/jwt.interceptor';
 
 
 @NgModule({
