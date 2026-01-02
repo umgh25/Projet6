@@ -4,7 +4,7 @@ import { map, Observable, Subject, takeUntil } from 'rxjs';
 import { Topic } from '../../../posts/interfaces/topic.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../../../auth/interfaces/user.interface';
-import { SessionService } from '../../../../services/session.service';
+import { SessionService } from '../../../../shared/services/session.service';
 import { TopicService } from '../../../topics/services/topic.service';
 import { CustomValidatorService } from '../../../../shared/services/custom-validator.service';
 import { ProfileService } from '../../services/profile.service';

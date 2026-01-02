@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { AuthService } from '../../services/auth.service';
 import { AuthSuccess } from '../../interfaces/auth-success';
-import { SessionService } from '../../../../services/session.service';
+import { SessionService } from '../../../../shared/services/session.service';
 import { Router } from '@angular/router';
 import { CustomValidatorService } from '../../../../shared/services/custom-validator.service';
 import { FormValidationErrorService } from '../../../../shared/services/form-validation-error.service';

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { SessionService } from '../../services/session.service';
+import { SessionService } from '../../shared/services/session.service';
 import { filter, Observable, of } from 'rxjs';
 import { NavigationEnd, Router } from '@angular/router';
-import { MobileService } from '../../services/mobile.service';
+import { MobileService } from '../../shared/services/mobile.service';
 
 @Component({
   selector: 'app-header',
