@@ -1,31 +1,33 @@
+import { HttpHandler, HttpInterceptor, HttpRequest, HttpEvent } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {
-  HttpEvent,
-  HttpHandler,
-  HttpInterceptor,
-  HttpRequest
-} from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { catchError, Observable, throwError } from 'rxjs';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class JwtInterceptor implements HttpInterceptor {
+  constructor(private matSnackBar: MatSnackBar) {}
 
-  intercept(
-    req: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    console.log('Intercepted request:', request); // Verifie si la requête est interceptée
 
     const token = localStorage.getItem('token');
-
     if (token) {
-      const authReq = req.clone({
+      request = request.clone({
         setHeaders: {
           Authorization: `Bearer ${token}`
-        }
+        },
       });
-      return next.handle(authReq);
     }
 
-    return next.handle(req);
+    return next.handle(request).pipe(
+      catchError(error => {
+        if (error.status >= 500) {
+          this.matSnackBar.open('Serveur indisponible', 'Close', { duration: 3000 });
+        }
+        return throwError(() => error);
+      })
+    );
   }
 }

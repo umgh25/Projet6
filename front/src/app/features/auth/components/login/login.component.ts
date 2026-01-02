@@ -45,7 +45,11 @@ export class LoginComponent {
                 this.router.navigate(['/post/list']);
               })
             },
-            error : err => this.errorMessage = "Veuillez vérifier vos identifiants de connexion."
+            error : err => {
+              if(err.status === 401) {
+                this.errorMessage = "Verifier vos identifiants de connexion"
+              }
+            }
           });
     } else {
       this.loginForm.markAllAsTouched();
