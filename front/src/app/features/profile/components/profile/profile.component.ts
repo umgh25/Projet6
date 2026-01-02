@@ -2,13 +2,14 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { map, Observable, Subject, takeUntil } from 'rxjs';
 import { Topic } from '../../../posts/interfaces/topic.interface';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../../../auth/interfaces/user.interface';
 import { SessionService } from '../../../../services/session.service';
 import { TopicService } from '../../../topics/services/topic.service';
 import { CustomValidatorService } from '../../../../shared/services/custom-validator.service';
 import { ProfileService } from '../../services/profile.service';
 import { FormValidationErrorService } from '../../../../shared/services/form-validation-error.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-profile',
@@ -17,7 +18,7 @@ import { FormValidationErrorService } from '../../../../shared/services/form-val
 })
 export class ProfileComponent implements OnInit, OnDestroy{
 
-  constructor(private formBuilder: FormBuilder, private activatedRoute:ActivatedRoute, private sessionService: SessionService, private topicService: TopicService, private customValidatorService : CustomValidatorService, private profilService: ProfileService, public formValidationError: FormValidationErrorService){}
+  constructor(private formBuilder: FormBuilder, private activatedRoute:ActivatedRoute, private sessionService: SessionService, private topicService: TopicService, private customValidatorService : CustomValidatorService, private profilService: ProfileService, public formValidationError: FormValidationErrorService, private matSnackBar: MatSnackBar, private router: Router){}
 
   profileForm!: FormGroup;
   userSubscribedTopics$!: Observable<Topic[]>
@@ -51,7 +52,7 @@ export class ProfileComponent implements OnInit, OnDestroy{
     if(this.profileForm.valid) {
       const userUpdated = this.profileForm.getRawValue() as User;
       this.profilService.updateProfil(userUpdated).subscribe(
-        response => this.profileForm.get("password")?.reset()
+        response => this.exitPage()
       );
     } else {
       this.profileForm.markAllAsTouched();
@@ -73,6 +74,12 @@ export class ProfileComponent implements OnInit, OnDestroy{
         this.user = response;
         this.initForm();
       });
+  }
+
+  private exitPage(){
+    this.matSnackBar.open('Compte mis à jour avec succès, veuillez vous reconnecter', 'Close', { duration: 3000 });
+    this.sessionService.logOut();
+    this.router.navigate(['auth/login']);
   }
 
 
