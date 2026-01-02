@@ -4,18 +4,19 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './shared/components/home/home.component';
+import { HomeComponent } from './components/home/home.component';
 import { HeaderComponent } from './shared/components/header/header.component';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -23,7 +24,8 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
     BrowserAnimationsModule,
     HomeComponent,
     HttpClientModule,
-    MatToolbarModule
+    MatToolbarModule,
+    NotFoundComponent
   ],
   providers: [
     {
