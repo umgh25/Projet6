@@ -27,8 +27,8 @@ export class LoginComponent {
 
   private initForm() {
     this.loginForm = this.formBuilder.group({
-      userName:["", [Validators.required]],
-      password:["", [Validators.required]]
+      userName:['', [Validators.required]],
+      password:['', [Validators.required]]
     })
   }
 
