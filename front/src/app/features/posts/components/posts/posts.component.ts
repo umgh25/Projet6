@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Post } from '../../interfaces/post.interface';
-import { ActivatedRoute, Route, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { map, Observable } from 'rxjs';
+import { Post } from '../../interfaces/post.interface';
 
 @Component({
   selector: 'app-posts',

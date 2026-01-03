@@ -1,10 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { RegisterRequest } from '../interfaces/register-request';
 import { Observable } from 'rxjs';
 import { AuthSuccess } from '../interfaces/auth-success';
-import { environment } from '../../../../environments/environment';
 import { LoginRequest } from '../interfaces/loginRequest.interface';
+import { RegisterRequest } from '../interfaces/register-request';
 import { User } from '../interfaces/user.interface';
 
 @Injectable({
@@ -12,7 +11,7 @@ import { User } from '../interfaces/user.interface';
 })
 export class AuthService {
 
-  private pathService = `${environment.baseUrl}auth`;
+  private pathService = 'api/auth';
 
   constructor(private http : HttpClient) {}
 

@@ -1,12 +1,9 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { SessionService } from '../../../../shared/services/session.service';
-import { AuthSuccess } from '../../interfaces/auth-success';
-import { Observable } from 'rxjs';
-import { User } from '../../interfaces/user.interface';
 import { FormValidationErrorService } from '../../../../shared/services/form-validation-error.service';
+import { SessionService } from '../../../../shared/services/session.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',

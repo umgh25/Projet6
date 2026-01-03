@@ -1,14 +1,8 @@
 import { Injectable } from '@angular/core';
-import {
-  Resolve,
-  RouterStateSnapshot,
-  ActivatedRouteSnapshot,
-  Router,
-} from '@angular/router';
-import { catchError, EMPTY, Observable, of, throwError} from 'rxjs';
-import { PostService } from '../services/post.service';
+import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
+import { catchError, EMPTY, Observable, throwError } from 'rxjs';
 import { Post } from '../interfaces/post.interface';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { PostService } from '../services/post.service';
 
 @Injectable({
   providedIn: 'root',

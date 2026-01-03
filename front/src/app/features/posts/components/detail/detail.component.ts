@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { map, Observable, of, take } from 'rxjs';
-import { Post } from '../../interfaces/post.interface';
-import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
-import { Comment } from '../../interfaces/comment.interface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { PostService } from '../../services/post.service';
+import { ActivatedRoute } from '@angular/router';
+import { map, Observable, take } from 'rxjs';
 import { FormValidationErrorService } from '../../../../shared/services/form-validation-error.service';
+import { Comment } from '../../interfaces/comment.interface';
+import { Post } from '../../interfaces/post.interface';
+import { PostService } from '../../services/post.service';
 
 @Component({
   selector: 'app-detail',
@@ -29,7 +29,7 @@ export class DetailComponent implements OnInit {
   private initForm(){
     this.commentForm = this.formBuilder.group({
       postId:[this.postId, Validators.required],
-      content:["", [Validators.required, Validators.minLength(3)]]
+      content:['', [Validators.required, Validators.minLength(3)]]
     });
   }
 

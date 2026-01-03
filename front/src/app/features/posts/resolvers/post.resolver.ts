@@ -1,12 +1,8 @@
 import { Injectable } from '@angular/core';
-import {
-  Router, Resolve,
-  RouterStateSnapshot,
-  ActivatedRouteSnapshot
-} from '@angular/router';
-import { Observable, of } from 'rxjs';
-import { PostService } from '../services/post.service';
+import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
+import { Observable } from 'rxjs';
 import { Post } from '../interfaces/post.interface';
+import { PostService } from '../services/post.service';
 
 @Injectable({
   providedIn: 'root'

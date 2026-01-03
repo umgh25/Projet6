@@ -5,7 +5,7 @@ import { UserSusbcribedTopicsResolver } from './resolvers/user-subscribed-topics
 
 const routes: Routes = [
   {
-    path:"",
+    path:'',
     component:ProfileComponent,
     resolve:{userSubscribedTopics: UserSusbcribedTopicsResolver}
   }
