@@ -12,7 +12,7 @@ import { User } from '../interfaces/user.interface';
 })
 export class AuthService {
 
-  private pathService = 'api/auth';
+  private pathService = `${environment.baseUrl}auth`;
 
   constructor(private http : HttpClient) {}
 
