@@ -29,6 +29,7 @@ button {
 }
 
 .cards-container {
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -39,6 +40,10 @@ button {
   flex: 0 1 calc(50% - 20px);
   margin-bottom: 2%;
   cursor: pointer;
+}
+
+.cards-container > .card:only-child {
+  flex: 0 1 calc(50% - 20px);
 }
 
 .post-info {
@@ -65,7 +70,7 @@ button:disabled svg {
 }
 
 @media (max-width: 768px) {
-  .card {
+  .card, .cards-container > .card:only-child {
     flex: 1 1 auto;
   }
 

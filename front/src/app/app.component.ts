@@ -10,7 +10,7 @@ import { AuthService } from './features/auth/services/auth.service';
   styleUrls: ['./app.component.scss',]
 })
 export class AppComponent implements OnInit {
-  title = 'front';
+  title = 'mdd';
 
   constructor(private router: Router, private sessionService: SessionService, private authService: AuthService){};
 
