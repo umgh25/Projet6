@@ -18,18 +18,6 @@ form {
 
 }
 
-/*::ng-deep .mat-mdc-form-field.mat-form-field-invalid .mdc-notched-outline__leading,
-::ng-deep .mat-mdc-form-field.mat-form-field-invalid .mdc-notched-outline__notch,
-::ng-deep .mat-mdc-form-field.mat-form-field-invalid .mdc-notched-outline__trailing {
-  border-color: red !important;
-}
-
-::ng-deep .mat-mdc-form-field:not(.mat-form-field-invalid) .mdc-notched-outline__leading,
-::ng-deep .mat-mdc-form-field:not(.mat-form-field-invalid) .mdc-notched-outline__notch,
-::ng-deep .mat-mdc-form-field:not(.mat-form-field-invalid) .mdc-notched-outline__trailing {
-  border-color: var(--mdc-theme-primary) !important;
-}*/
-
 .button-container {
   display: flex;
   justify-content: center;
@@ -37,4 +25,38 @@ form {
 
 button {
   flex: 0 0 30%
+}
+
+.arrow{
+  margin-top: 1%;
+  position: absolute;
+}
+
+button {
+  background-color: white;
+  border: none;
+}
+
+
+@media (max-width: 768px) {
+  #new-post {
+    height: 90%;
+    width: 100%;
+    justify-content: center;
+  }
+
+  form {
+    width: 90%;
+    justify-content: center;
+  }
+
+  button {
+    flex: 0 0 50%
+  }
+
+  .arrow svg {
+    height: 80px;
+    width: 80px;
+  }
+
 }

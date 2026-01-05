@@ -28,4 +28,36 @@ h2 {
 
 .arrow{
   position: absolute;
+  background-color: white;
+  border: none;
+}
+
+.register-button {
+  margin-top: 3%;
+}
+
+
+@media (max-width: 768px) {
+  #register {
+    height: 50%;
+    justify-content: space-around;
+  }
+
+  h2 {
+    margin-bottom: 10%;
+  }
+
+  .arrow {
+    top: 0;
+  }
+
+  svg {
+    height: 80px;
+    width: 80px;
+  }
+
+  .register-button {
+    width: 50%;
+    margin-top: 12%;
+  }
 }

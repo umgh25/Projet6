@@ -1,4 +1,4 @@
-.posts {
+#posts {
   width: 95%;
   height: auto;
   margin: 2% auto;
@@ -29,6 +29,7 @@ button {
 }
 
 .cards-container {
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -38,6 +39,11 @@ button {
 .card {
   flex: 0 1 calc(50% - 20px);
   margin-bottom: 2%;
+  cursor: pointer;
+}
+
+.cards-container > .card:only-child {
+  flex: 0 1 calc(50% - 20px);
 }
 
 .post-info {
@@ -57,4 +63,22 @@ button {
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+button:disabled svg {
+  fill: rgb(16,16,16,0.3);
+}
+
+@media (max-width: 768px) {
+  .card, .cards-container > .card:only-child {
+    flex: 1 1 auto;
+  }
+
+  .buttons-container {
+    flex-direction: column;
+  }
+
+  button {
+    align-self: center;
+  }
 }

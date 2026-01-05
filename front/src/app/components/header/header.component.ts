@@ -1,18 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { SessionService } from '../../../services/session.service';
+import { SessionService } from '../../shared/services/session.service';
 import { filter, Observable, of } from 'rxjs';
 import { NavigationEnd, Router } from '@angular/router';
-import { MobileService } from '../../../services/mobile.service';
+import { MobileService } from '../../shared/services/mobile.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
+  styleUrls: ['./header.component.scss',]
 })
 export class HeaderComponent implements OnInit {
   showToolbar: boolean = true;
   isMobileResolution = false;
   isLogged: boolean = false;
+  showMenu: boolean = false;
 
   constructor(private sessionService: SessionService, private router: Router, private mobileService: MobileService
   ) {}
@@ -35,11 +36,15 @@ export class HeaderComponent implements OnInit {
   }
 
   private displayToolBar() {
-    this.showToolbar = (!this.isLogged && !this.isMobileResolution && (this.router.url.includes("register")) || this.router.url.includes("login")) || this.isLogged;
+    this.showToolbar = (!this.isLogged && !this.isMobileResolution && (this.router.url.includes("register") || this.router.url.includes("login")) || this.isLogged);
     console.log((this.router.url.includes("register")) || this.router.url.includes("login"))
   }
 
   private isMobile() {
     this.isMobileResolution = this.mobileService.isMobile();
+  }
+
+  public onToggleMenu () {
+    this.showMenu = !this.showMenu;
   }
 }

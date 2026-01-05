@@ -2,12 +2,14 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { map, Observable, Subject, takeUntil } from 'rxjs';
 import { Topic } from '../../../posts/interfaces/topic.interface';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../../../auth/interfaces/user.interface';
-import { SessionService } from '../../../../services/session.service';
+import { SessionService } from '../../../../shared/services/session.service';
 import { TopicService } from '../../../topics/services/topic.service';
-import { CustomValidatorService } from '../../services/custom-validator.service';
+import { CustomValidatorService } from '../../../../shared/services/custom-validator.service';
 import { ProfileService } from '../../services/profile.service';
+import { FormValidationErrorService } from '../../../../shared/services/form-validation-error.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-profile',
@@ -16,7 +18,7 @@ import { ProfileService } from '../../services/profile.service';
 })
 export class ProfileComponent implements OnInit, OnDestroy{
 
-  constructor(private formBuilder: FormBuilder, private activatedRoute:ActivatedRoute, private sessionService: SessionService, private topicService: TopicService, private customValidatorService : CustomValidatorService, private profilService: ProfileService){}
+  constructor(private formBuilder: FormBuilder, private activatedRoute:ActivatedRoute, private sessionService: SessionService, private topicService: TopicService, private customValidatorService : CustomValidatorService, private profilService: ProfileService, public formValidationError: FormValidationErrorService, private matSnackBar: MatSnackBar, private router: Router){}
 
   profileForm!: FormGroup;
   userSubscribedTopics$!: Observable<Topic[]>
@@ -33,15 +35,15 @@ export class ProfileComponent implements OnInit, OnDestroy{
 
   private initForm(){
     this.profileForm = this.formBuilder.group({
-      userName:[this.user?.userName ? this.user?.userName : "", {
-        validators: [Validators.required],
+      userName:[this.user?.userName ? this.user?.userName : '', {
+        validators: [Validators.required, Validators.minLength(3)],
         asyncValidators: [this.customValidatorService.userNameTakenValidator(this.user?.userName)],
       }],
-      email:[this.user?.email ? this.user.email : "", {
+      email:[this.user?.email ? this.user.email : '', {
         validators: [Validators.required, Validators.email],
         asyncValidators: [this.customValidatorService.emailTakenValidator(this.user?.email)],
       }],
-      password:["", this.customValidatorService.passwordValidator()]
+      password:['', this.customValidatorService.passwordValidator()]
     })
   }
 
@@ -50,7 +52,7 @@ export class ProfileComponent implements OnInit, OnDestroy{
     if(this.profileForm.valid) {
       const userUpdated = this.profileForm.getRawValue() as User;
       this.profilService.updateProfil(userUpdated).subscribe(
-        response => this.profileForm.get("password")?.reset()
+        response => this.exitPage()
       );
     } else {
       this.profileForm.markAllAsTouched();
@@ -72,6 +74,12 @@ export class ProfileComponent implements OnInit, OnDestroy{
         this.user = response;
         this.initForm();
       });
+  }
+
+  private exitPage(){
+    this.matSnackBar.open('Compte mis à jour avec succès, veuillez vous reconnecter', 'Close', { duration: 3000 });
+    this.sessionService.logOut();
+    this.router.navigate(['auth/login']);
   }
 
 

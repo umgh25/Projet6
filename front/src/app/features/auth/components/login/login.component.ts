@@ -1,11 +1,9 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { SessionService } from '../../../../services/session.service';
-import { AuthSuccess } from '../../interfaces/auth-success';
-import { Observable } from 'rxjs';
-import { User } from '../../interfaces/user.interface';
+import { FormValidationErrorService } from '../../../../shared/services/form-validation-error.service';
+import { SessionService } from '../../../../shared/services/session.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -15,9 +13,10 @@ import { User } from '../../interfaces/user.interface';
 export class LoginComponent {
 
   loginForm!: FormGroup;
+  errorMessage: string = '';
 
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService, private sessionService : SessionService, private router: Router) {}
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private sessionService : SessionService, private router: Router, public formValidationError: FormValidationErrorService) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -25,8 +24,8 @@ export class LoginComponent {
 
   private initForm() {
     this.loginForm = this.formBuilder.group({
-      userName:["", [Validators.required]],
-      password:["", [Validators.required]]
+      userName:['', [Validators.required]],
+      password:['', [Validators.required]]
     })
   }
 
@@ -34,18 +33,27 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       const loginrequest = this.loginForm.getRawValue();
       this.authService.login(loginrequest)
-        .subscribe((response:AuthSuccess) => {
-          localStorage.setItem('token', response.token);
-          this.authService.getUserInfo().subscribe(response => {
-            this.sessionService.login(response);
-            this.router.navigate(['/post/list']);
-          })
-        })
+        .subscribe(
+          {
+            next: response => {
+              localStorage.setItem('token', response.token);
+              this.authService.getUserInfo().subscribe(response => {
+                this.sessionService.login(response);
+                this.router.navigate(['/post/list']);
+              })
+            },
+            error : err => {
+              if(err.status === 401) {
+                this.errorMessage = "Verifier vos identifiants de connexion"
+              }
+            }
+          });
     } else {
       this.loginForm.markAllAsTouched();
     }
   }
-
-
+  public goBack(){
+    window.history.back();
+  }
 
 }

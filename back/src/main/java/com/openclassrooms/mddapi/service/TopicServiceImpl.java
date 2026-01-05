@@ -34,6 +34,17 @@ public class TopicServiceImpl implements TopicService {
         this.topicMapper = topicMapper;
     }
 
+    /**
+     * Retrieve a topic by its ID
+     *
+     * @param topicId
+     * @return an optional containing the topic if found
+     */
+    @Override
+    public Optional<Topic> findTopicById(Long topicId) {
+        return this.topicRepository.findById(topicId);
+    }
+
     @Override
     public List<TopicDto> findAllTopic() {
         return this.topicMapper.asTopicDtos(this.topicRepository.findAll());
@@ -162,10 +173,6 @@ public class TopicServiceImpl implements TopicService {
         log.info("User {} unsubscribed from topic {} successfully", userLogged.getUserName(), topicId);
     }
 
-    @Override
-    public Optional<Topic> findTopicById(Long topicId) {
-        return this.topicRepository.findById(topicId);
-    }
 
     private Topic getTopicById(Long topicId) throws ResourceNotFoundException {
         return this.topicRepository.findById(topicId).orElseThrow(ResourceNotFoundException::new);

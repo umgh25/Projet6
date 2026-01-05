@@ -2,8 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { AuthService } from '../../services/auth.service';
 import { AuthSuccess } from '../../interfaces/auth-success';
-import { SessionService } from '../../../../services/session.service';
+import { SessionService } from '../../../../shared/services/session.service';
 import { Router } from '@angular/router';
+import { CustomValidatorService } from '../../../../shared/services/custom-validator.service';
+import { FormValidationErrorService } from '../../../../shared/services/form-validation-error.service';
 
 @Component({
   selector: 'app-register',
@@ -14,7 +16,7 @@ export class RegisterComponent implements OnInit {
 
   registerForm!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService, private sessionService : SessionService, private router: Router) {}
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private sessionService : SessionService, private router: Router, private customValidatorService: CustomValidatorService, public formValidationError: FormValidationErrorService) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -22,9 +24,9 @@ export class RegisterComponent implements OnInit {
 
   private initForm() {
     this.registerForm = this.formBuilder.group({
-      userName:["", [Validators.required]],
-      email:["", [Validators.required]],
-      password:["", [Validators.required]]
+      userName:['', [Validators.required, Validators.minLength(3)]],
+      email:['', [Validators.required, Validators.email]],
+      password:['', [Validators.required, this.customValidatorService.passwordValidator()]]
     })
   }
 
@@ -44,4 +46,7 @@ export class RegisterComponent implements OnInit {
     }
   }
 
+  public goBack(){
+    window.history.back();
+  }
 }

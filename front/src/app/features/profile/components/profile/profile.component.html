@@ -4,31 +4,22 @@
     <mat-form-field appearance="outline" class="field">
       <mat-label>Username</mat-label>
       <input matInput type="text" formControlName="userName">
-      @if(profileForm.get('userName')?.hasError("required") && profileForm.get('userName')?.touched) {
-        <mat-error>Champs obligatoire</mat-error>
-      }
-      @if(profileForm.get('userName')?.hasError("userNameTaken") && profileForm.get('userName')?.touched) {
-        <mat-error>Ce nom d'utilisateur appartient déjà à un compte</mat-error>
+      @if(!profileForm.get('userName')?.valid && profileForm.get('userName')?.touched) {
+        <mat-error>{{formValidationError.getErrorMessage(profileForm,'userName')}}</mat-error>
       }
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Email</mat-label>
       <input matInput formControlName="email">
-      @if(profileForm.get('email')?.hasError("required") && profileForm.get('email')?.touched) {
-        <mat-error>Champs obligatoire</mat-error>
-      }
-      @if(profileForm.get('email')?.hasError("emailTaken") && profileForm.get('email')?.touched) {
-        <mat-error>Cet email appartient déjà à un compte</mat-error>
+      @if(!profileForm.get('email')?.valid && profileForm.get('email')?.touched) {
+        <mat-error>{{formValidationError.getErrorMessage(profileForm,'email')}}</mat-error>
       }
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Mot de passe</mat-label>
       <input matInput type="password" formControlName="password">
-      @if(profileForm.get('password')?.hasError("required") && profileForm.get('password')?.touched) {
-        <mat-error>Champs obligatoire</mat-error>
-      }
-      @if(profileForm.get('password')?.hasError("passwordStrength") && profileForm.get('password')?.touched) {
-        <mat-error>Le mot de passe doit comporter une majuscule, une minuscule, un chiffre, un caractere special et au moins 8 caractères</mat-error>
+      @if(!profileForm.get('password')?.valid && profileForm.get('password')?.touched) {
+        <mat-error>{{formValidationError.getErrorMessage(profileForm,'password')}}</mat-error>
       }
     </mat-form-field>
     <div class="button-container">
@@ -50,6 +41,8 @@
           </div>
         </mat-card-content>
       </mat-card>
+    } @empty {
+      <div class="info-message">Vous n'avez aucun abonnement pour le moment.</div>
     }
   </div>
 </div>

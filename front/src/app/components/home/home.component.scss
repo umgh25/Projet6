@@ -29,4 +29,39 @@
   border-radius: 10px;
   text-decoration: none;
   color: black;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+
+  #home {
+    height: 70%;
+    justify-content: flex-start;
+  }
+
+  #logo {
+    margin-top: 20%;
+    max-width: 300px;
+  }
+
+  #logo img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  #links {
+    height: 20%;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+}
+
+
+
+@media (max-width: 768px) {
+
+  #logo {
+    display: none;
+  }
+
 }

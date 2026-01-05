@@ -69,7 +69,12 @@ public class PostServiceImpl implements PostService {
         return posts;
     }
 
-
+    /**
+     * save a new post
+     *
+     * @param newPost new post to save
+     * @throws ResourceNotFoundException if user not found
+     */
     @Override
     public void createPost(CreatePostDto newPost) throws ResourceNotFoundException {
         User user = this.userService.getLoggedUser();

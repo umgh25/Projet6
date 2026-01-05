@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { User } from '../features/auth/interfaces/user.interface';
+import { User } from '../../features/auth/interfaces/user.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SessionService {
 
-  private isLogged = false;
+  public isLogged = false;
 
   private isLoggedSubject = new BehaviorSubject<boolean>(this.isLogged);
 
@@ -28,12 +28,12 @@ export class SessionService {
   public login(user:User|undefined):void {
     this.user = user;
     this.isLogged = true;
-    console.log(this.user)
     this.next();
   }
 
   public logOut(): void {
     localStorage.removeItem('token');
+    this.user = undefined;
     this.isLogged = false;
     this.next();
   }

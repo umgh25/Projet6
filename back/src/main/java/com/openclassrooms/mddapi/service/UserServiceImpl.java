@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @Slf4j
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
@@ -30,6 +30,13 @@ public class UserServiceImpl implements UserService{
         this.userMapper = userMapper;
     }
 
+    /**
+     * Register a new user
+     *
+     * @param registerRequest
+     * @return the registered user
+     * @throws UserAlreadyRegisteredException if the email or username is already taken
+     */
     @Override
     public User addUser(RegisterRequestDto registerRequest) throws UserAlreadyRegisteredException {
         log.info("Check if user is already registered");
@@ -45,45 +52,91 @@ public class UserServiceImpl implements UserService{
         return this.userRepository.save(userToSave);
     }
 
+    /**
+     * Update user
+     *
+     * @param user
+     * @return user updated
+     */
     @Override
     public User updateUser(User user) {
         return this.userRepository.save(user);
     }
 
+    /**
+     * Updates the currently authenticated user's information based on the provided DTO
+     *
+     * @param user
+     * @return user updated
+     * @throws UserAlreadyRegisteredException if email or username is already taken
+     * @throws ResourceNotFoundException if user not found
+     */
     @Override
     public User updateUser(UserDto user) throws UserAlreadyRegisteredException, ResourceNotFoundException {
         User userToUpdate = this.getLoggedUser();
-        User userUpdated = this.updateUser(userToUpdate,user);
+        User userUpdated = this.updateUser(userToUpdate, user);
         return this.userRepository.save(userUpdated);
     }
 
+    /**
+     * Find a user by email
+     *
+     * @param email
+     * @return an optional containing the user if found
+     */
     @Override
     public Optional<User> findUserByMail(String email) {
         return this.userRepository.findByEmail(email);
     }
 
+    /**
+     * Retrieve the logged user
+     *
+     * @return the logged user
+     * @throws ResourceNotFoundException if user not found
+     */
     @Override
     public User getLoggedUser() throws ResourceNotFoundException {
         return this.findUserByMail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(ResourceNotFoundException::new);
     }
 
-
+    /**
+     * Retrieve the logged user
+     *
+     * @return the logged user as Dto
+     * @throws ResourceNotFoundException if user not found
+     */
     @Override
     public UserDto findUser() throws ResourceNotFoundException {
         User user = this.getLoggedUser();
         return this.userMapper.asUserDto(user);
     }
 
+    /**
+     * Check if an email address is already taken
+     *
+     * @param userMail
+     * @return true if the email address is already taken, otherwise false
+     */
     @Override
     public Boolean isEmailAlreadyTaken(String userMail) {
-        return this.findUserByMail(userMail).isPresent();}
+        return this.findUserByMail(userMail).isPresent();
+    }
 
+    /**
+     * Check if a username is already taken
+     *
+     * @param userName
+     * @return true if the username is already taken, otherwise false
+     */
     @Override
-    public Boolean isUserNameAlreadyTaken(String userName){
+    public Boolean isUserNameAlreadyTaken(String userName) {
         return this.userRepository.findByUserName(userName).isPresent();
     }
+
     /**
      * Check if user is already registered
+     *
      * @param email user's email
      * @param username username
      * @throws UserAlreadyRegisteredException if user is already registered
@@ -97,8 +150,16 @@ public class UserServiceImpl implements UserService{
         }
     }
 
+    /**
+     * Update user information
+     *
+     * @param existitingUser the existing user in the database
+     * @param user the user with the new data
+     * @return the updated user
+     * @throws UserAlreadyRegisteredException if the username or email already exists in the database
+     */
     private User updateUser(User existitingUser, UserDto user) throws UserAlreadyRegisteredException {
-        if(!existitingUser.getUserName().equals(user.getUserName())){
+        if (!existitingUser.getUserName().equals(user.getUserName())) {
             log.info("Username has changed, update user with username {}", user.getUserName());
             if (isUserNameAlreadyTaken(user.getUserName())) {
                 throw new UserAlreadyRegisteredException();
@@ -106,7 +167,7 @@ public class UserServiceImpl implements UserService{
             existitingUser.setUserName((user.getUserName()));
         }
 
-        if(!existitingUser.getEmail().equals(user.getEmail())) {
+        if (!existitingUser.getEmail().equals(user.getEmail())) {
             log.info("Email has changed, update user with email {}", user.getEmail());
             if (isEmailAlreadyTaken(user.getEmail())) {
                 throw new UserAlreadyRegisteredException();
@@ -114,11 +175,10 @@ public class UserServiceImpl implements UserService{
             existitingUser.setEmail(user.getEmail());
         }
 
-        if (user.getPassword() != null && !user.getPassword().isEmpty() && !passwordEncoder.matches(existitingUser.getPassword(), user.getPassword())){
-            log.info("Password has changed, update user with password {}", user.getPassword());
+        if (user.getPassword() != null && !user.getPassword().isEmpty() && !passwordEncoder.matches(existitingUser.getPassword(), user.getPassword())) {
+            log.info("Password has changed, update new user password");
             existitingUser.setPassword(passwordEncoder.encode(user.getPassword()));
         }
-        log.info("{} {} {}", existitingUser.getUserName(), existitingUser.getEmail());
         return existitingUser;
     }
 }
