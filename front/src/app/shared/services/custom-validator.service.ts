@@ -44,4 +44,14 @@ export class CustomValidatorService {
       return !passwordValid ? {passwordStrength:true}: null;
     }
   }
+
+  notBlankValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = control.value;
+      if (!value || value.trim().length === 0) {
+        return { notBlank: true };
+      }
+      return null;
+    };
+  }
 }
