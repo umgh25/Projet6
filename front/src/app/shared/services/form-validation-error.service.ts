@@ -17,7 +17,9 @@ export class FormValidationErrorService {
       if (field === 'userName') {
         return 'Renseignez un utilisateur valide';
       } else if (field === 'content') {
-        return 'Renseignez un commentaire valide';
+        return 'Renseignez un contenu valide';
+      } else if (field === 'title') {
+        return 'Renseignez un titre valide';
       }
       return 'Ce champ ne peut pas être vide';
     } else if (form.get(field)?.hasError('email')) {
