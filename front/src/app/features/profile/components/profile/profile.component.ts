@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { map, Observable, Subject, takeUntil } from 'rxjs';
+import { map, Observable, Subject, take, takeUntil } from 'rxjs';
 import { Topic } from '../../../posts/interfaces/topic.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../../../auth/interfaces/user.interface';
@@ -10,6 +10,7 @@ import { CustomValidatorService } from '../../../../shared/services/custom-valid
 import { ProfileService } from '../../services/profile.service';
 import { FormValidationErrorService } from '../../../../shared/services/form-validation-error.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from '../../../auth/services/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -18,7 +19,18 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class ProfileComponent implements OnInit, OnDestroy{
 
-  constructor(private formBuilder: FormBuilder, private activatedRoute:ActivatedRoute, private sessionService: SessionService, private topicService: TopicService, private customValidatorService : CustomValidatorService, private profilService: ProfileService, public formValidationError: FormValidationErrorService, private matSnackBar: MatSnackBar, private router: Router){}
+  constructor(
+    private formBuilder: FormBuilder, 
+    private activatedRoute:ActivatedRoute, 
+    private sessionService: SessionService, 
+    private topicService: TopicService, 
+    private customValidatorService : CustomValidatorService, 
+    private profilService: ProfileService, 
+    public formValidationError: FormValidationErrorService, 
+    private matSnackBar: MatSnackBar, 
+    private router: Router,
+    private authService: AuthService
+  ){}
 
   profileForm!: FormGroup;
   userSubscribedTopics$!: Observable<Topic[]>
@@ -78,8 +90,23 @@ export class ProfileComponent implements OnInit, OnDestroy{
 
   private exitPage(){
     this.matSnackBar.open('Compte mis à jour avec succès, veuillez vous reconnecter', 'Close', { duration: 3000 });
-    this.sessionService.logOut();
-    this.router.navigate(['auth/login']);
+    
+    // Call backend logout endpoint to invalidate the token
+    this.authService.logout()
+      .pipe(take(1))
+      .subscribe({
+        next: () => {
+          // Clear session after successful backend logout
+          this.sessionService.logOut();
+          this.router.navigate(['auth/login']);
+        },
+        error: (error) => {
+          // Even if backend call fails, clear session locally
+          console.error('Logout error:', error);
+          this.sessionService.logOut();
+          this.router.navigate(['auth/login']);
+        }
+      });
   }
 
 

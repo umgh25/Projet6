@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { SessionService } from '../../shared/services/session.service';
-import { filter, Observable, of } from 'rxjs';
+import { filter, Observable, of, take } from 'rxjs';
 import { NavigationEnd, Router } from '@angular/router';
 import { MobileService } from '../../shared/services/mobile.service';
+import { AuthService } from '../../features/auth/services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -15,7 +16,11 @@ export class HeaderComponent implements OnInit {
   isLogged: boolean = false;
   showMenu: boolean = false;
 
-  constructor(private sessionService: SessionService, private router: Router, private mobileService: MobileService
+  constructor(
+    private sessionService: SessionService, 
+    private router: Router, 
+    private mobileService: MobileService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -31,8 +36,22 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-    this.sessionService.logOut();
-    this.router.navigate(['/'])
+    // Call backend logout endpoint to invalidate the token
+    this.authService.logout()
+      .pipe(take(1))
+      .subscribe({
+        next: () => {
+          // Clear session after successful backend logout
+          this.sessionService.logOut();
+          this.router.navigate(['/']);
+        },
+        error: (error) => {
+          // Even if backend call fails, clear session locally
+          console.error('Logout error:', error);
+          this.sessionService.logOut();
+          this.router.navigate(['/']);
+        }
+      });
   }
 
   private displayToolBar() {
