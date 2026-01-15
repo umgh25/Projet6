@@ -1,7 +1,6 @@
 package com.openclassrooms.mddapi.exception;
 
 
-import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -23,7 +22,10 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<String> handleBadRequestException(BadRequestException ex) {
-        return new ResponseEntity<>("bad request", HttpStatus.BAD_REQUEST);
+        String message = ex.getMessage() != null && !ex.getMessage().isEmpty() 
+            ? ex.getMessage() 
+            : "bad request";
+        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
     }
 
 }

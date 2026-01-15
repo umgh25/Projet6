@@ -137,7 +137,7 @@ public class TopicServiceImpl implements TopicService {
 
         if (hasAlreadySubscribed) {
             log.error("User is already subscribed");
-            throw new BadRequestException();
+            throw new BadRequestException("Déjà abonné à ce topic");
         }
 
         Subscription subscription = Subscription.builder()
@@ -166,7 +166,7 @@ public class TopicServiceImpl implements TopicService {
         Subscription subscription = subscriptionRepository.findByUserAndTopic(userLogged, topic)
                 .orElseThrow(() -> {
                     log.error("User has not subscribed");
-                    return new BadRequestException();
+                    return new BadRequestException("Pas abonné à ce topic");
                 });
 
         subscriptionRepository.delete(subscription);
