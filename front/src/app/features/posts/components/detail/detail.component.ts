@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { map, Observable, take } from 'rxjs';
 import { FormValidationErrorService } from '../../../../shared/services/form-validation-error.service';
+import { CustomValidatorService } from '../../../../shared/services/custom-validator.service';
 import { Comment } from '../../interfaces/comment.interface';
 import { Post } from '../../interfaces/post.interface';
 import { PostService } from '../../services/post.service';
@@ -18,7 +19,7 @@ export class DetailComponent implements OnInit {
   commentForm!: FormGroup;
   postId!: string | null;
 
-  constructor(private route: ActivatedRoute, private formBuilder: FormBuilder, private postService: PostService, public formValidationService: FormValidationErrorService) {}
+  constructor(private route: ActivatedRoute, private formBuilder: FormBuilder, private postService: PostService, public formValidationService: FormValidationErrorService, private customValidatorService: CustomValidatorService) {}
 
   ngOnInit(): void {
     this.post$ = this.route.data.pipe(map((data) => data['post']));
@@ -29,7 +30,7 @@ export class DetailComponent implements OnInit {
   private initForm(){
     this.commentForm = this.formBuilder.group({
       postId:[this.postId, Validators.required],
-      content:['', [Validators.required, Validators.minLength(3)]]
+      content:['', [Validators.required, this.customValidatorService.notBlankValidator(), Validators.minLength(3)]]
     });
   }
 

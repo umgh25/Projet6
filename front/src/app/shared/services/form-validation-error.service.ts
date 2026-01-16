@@ -13,6 +13,15 @@ export class FormValidationErrorService {
     console.log(form.get(field)?.errors);
     if (form.get(field)?.hasError('required')) {
       return 'Champ obligatoire';
+    } else if (form.get(field)?.hasError('notBlank')) {
+      if (field === 'userName') {
+        return 'Renseignez un utilisateur valide';
+      } else if (field === 'content') {
+        return 'Renseignez un contenu valide';
+      } else if (field === 'title') {
+        return 'Renseignez un titre valide';
+      }
+      return 'Ce champ ne peut pas être vide';
     } else if (form.get(field)?.hasError('email')) {
       return "Format d’email invalide";
     } else if (form.get(field)?.hasError('passwordStrength')) {
