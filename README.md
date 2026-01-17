@@ -1,25 +1,155 @@
-# P6-Full-Stack-reseau-dev
+# MDD (Monde De Dev)
 
-## Front
+MDD est un réseau social pour les développeurs. Il permet aux développeurs de s'abonner à des thématiques, et depuis leur tableau de bord d'accéder aux posts liés aux thématiques auxquelles ils sont abonnés. Ils peuvent également créer des posts sur les thématiques de leur choix et laisser des commentaires sous les différents posts. Le backend de l'application est développé en JAVA avec Spring Boot et le frontend avec Angular.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.1.3.
+## Utiliser MDD
 
-Don't forget to install your node_modules before starting (`npm install`).
+Pour utiliser MDD, clonez le projet et suivez les étapes ci-dessous :
 
-### Development server
+## BACK-END
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+### Prérequis
+- Java 17
+- MySQL 8.x.x
+- IDE comme IntelliJ IDEA ou Eclipse
+- Maven 3.x.x
 
-### Build
+### Base de données :
+Après avoir installé MySQL et configuré votre nom d'utilisateur et mot de passe, assurez-vous que votre serveur de base de données est actif.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+La base de données sera créée automatiquement au lancement du backend et des données de test y seront insérées.
 
-### Where to start
+Vous pouvez utiliser les trois utilisateurs suivants ou en créer de nouveaux :
 
-As you may have seen if you already started the app, a simple home page containing a logo, a title and a button is available. If you take a look at its code (in the `home.component.html`) you will see that an external UI library is already configured in the project.
+- **Email** : `john@gmail.com`  
+  **Mot de passe** : `Test!1234`
 
-This library is `@angular/material`, it's one of the most famous in the angular ecosystem. As you can see on their docs (https://material.angular.io/), it contains a lot of highly customizable components that will help you design your interfaces quickly.
+- **Email** : `alice@gmail.com`  
+  **Mot de passe** : `Test!1234`
 
-Note: I recommend to use material however it's not mandatory, if you prefer you can get rid of it.
+- **Email** : `bob@gmail.com`  
+  **Mot de passe** : `Test!1234`
 
-Good luck!
+### Configuration du projet :
+Ouvrez le projet dans votre IDE. Ouvrez le fichier [application.properties](back/src/main/resources/application.properties) et éditez les lignes suivantes :
+
+```properties
+# JWT secret key
+jwt.secret=Your256BitSecretHere
+```
+⚠️ Utilisez une clé de 256 bits, vous pouvez utiliser un générateur de clé en ligne pour cela.
+
+```properties
+# Database
+spring.datasource.url=jdbc:mysql://localhost:3306/mdd?createDatabaseIfNotExist=true
+```
+⚠️ Changez le port MySQL s'il n'est pas 3306.
+
+### Lancer le projet
+
+Dans votre terminal, allez dans le dossier "back" et suivez les instructions :
+
+**Définissez les variables d'environnement avec ces commandes :**
+
+```bash
+$env:DB_URL="jdbc:mysql://localhost:3306/mdd?createDatabaseIfNotExist=true"
+$env:DB_USERNAME="your_username"
+$env:DB_PASSWORD="your_password"
+$env:JWT_SECRET="Your256BitSecretHere"
+$env:JPA_DDL_AUTO="update"
+$env:SHOW_SQL="false"
+```
+⚠️ Remplacez `your_username` par votre nom d'utilisateur de base de données et `your_password` par votre mot de passe.
+
+**Lancez l'application avec ces commandes :**
+
+```bash
+mvn clean install
+java -jar target/mdd-api-0.0.1-SNAPSHOT.jar
+```
+
+Ou simplement :
+
+```bash
+mvn spring-boot:run
+```
+
+### Documentation API
+
+Après avoir lancé l'application, ouvrez votre navigateur et utilisez le lien suivant :
+
+```
+http://localhost:8080/swagger-ui/index.html
+```
+
+Vous pouvez maintenant explorer toutes les routes disponibles de l'API, y compris leurs descriptions, paramètres, et même tester les endpoints directement.
+
+Pour tester certaines routes, vous devrez fournir un token d'authentification :
+
+1. Obtenez-le en utilisant l'endpoint `/api/auth/login` avec les identifiants d'un utilisateur
+2. Cliquez sur le bouton "Authorize" et collez la valeur du token
+3. Vous pouvez maintenant tester les endpoints sécurisés
+
+## FRONT-END
+
+### Prérequis
+- Node.js 16.x.x ou supérieur
+- Angular CLI 14.x.x
+- IDE comme VS Code ou WebStorm
+
+### Lancer le projet
+
+1. Ouvrez le projet dans votre IDE
+2. Dans votre terminal, placez-vous dans le répertoire "front"
+
+**Installez les dépendances :**
+
+```bash
+npm install
+```
+
+**Lancez le serveur de développement :**
+
+```bash
+ng serve
+```
+
+ou
+
+```bash
+npm start
+```
+
+**Ouvrez votre navigateur et naviguez vers :**
+
+```
+http://localhost:4200
+```
+
+L'application se rechargera automatiquement si vous modifiez les fichiers source.
+
+### Build de production
+
+Pour construire le projet pour la production :
+
+```bash
+ng build
+```
+
+Les fichiers de build seront stockés dans le répertoire `dist/`.
+
+## Technologies utilisées
+
+### Backend
+- Java 17
+- Spring Boot 3.2.5
+- Spring Security avec JWT
+- MySQL 8
+- MapStruct pour le mapping d'objets
+- Lombok
+- Swagger/OpenAPI pour la documentation
+
+### Frontend
+- Angular 14
+- Angular Material pour les composants UI
+- RxJS pour la programmation réactive
