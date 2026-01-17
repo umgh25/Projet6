@@ -1,10 +1,14 @@
 package com.openclassrooms.mddapi.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Data
 @Entity
 public class Post {
 
@@ -12,15 +16,18 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
+    @Size(min = 2)
     private String title;
 
-    private String description;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User author;
 
     @Column(columnDefinition = "TEXT")
+    @NotBlank
+    @Size(min = 20)
     private String content;
 
     @ManyToOne

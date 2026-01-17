@@ -1,14 +1,9 @@
 #register {
-  height: 100%;
+  margin-top: 2%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-}
-
-#logo img {
-  max-width: 100%;
-  height: auto;
 }
 
 form {
@@ -19,31 +14,50 @@ form {
   justify-content: center;
 }
 
+h2 {
+  margin-bottom: 2%;
+}
+
 
 .field {
   display: flex;
   flex-direction: column;
+  width: 30%;
+  min-width: 300px;
 }
 
-/*form div {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  max-width: 400px;
-  padding: 15px 0;
+.arrow{
+  position: absolute;
+  background-color: white;
+  border: none;
 }
 
-form div input {
-  width: 250px;
-  height: 50px;
-  border-radius: 5px;
-}*/
-
-#button {
-  width: 128px;
-  height: 40px;
-  border-radius: 8px;
-  opacity: 1;
-  background: hsla(252, 45%, 58%, 1);
+.register-button {
+  margin-top: 3%;
 }
 
+
+@media (max-width: 768px) {
+  #register {
+    height: 50%;
+    justify-content: space-around;
+  }
+
+  h2 {
+    margin-bottom: 10%;
+  }
+
+  .arrow {
+    top: 0;
+  }
+
+  svg {
+    height: 80px;
+    width: 80px;
+  }
+
+  .register-button {
+    width: 50%;
+    margin-top: 12%;
+  }
+}

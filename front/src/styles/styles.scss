@@ -6,9 +6,29 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 :root {
   --mdc-theme-primary: #7763C5;
   --mdc-theme-on-primary: white;
+  --mat-app-primary: white;
 }
 
-.mat-mdc-raised-button {
+.mat-mdc-raised-button:not(:disabled) {
   background-color: var(--mdc-theme-primary) !important;
   color: var(--mdc-theme-on-primary) !important;
+  border-radius: 10px!important;
+}
+
+.mat-mdc-raised-button:disabled {
+  color: var(--mdc-theme-on-primary) !important;
+  background-color: #939393!important;
+  border-radius: 10px!important;
+}
+
+.mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused .mat-mdc-notch-piece {
+  border-color: var(--mdc-theme-primary)!important;
+}
+
+.mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused .mdc-floating-label {
+  color: var(--mdc-theme-primary)!important;
+}
+
+.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field .mdc-notched-outline__notch {
+  border-left: 0px!important;
 }

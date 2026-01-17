@@ -1,0 +1,75 @@
+#login {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 2%;
+}
+
+#logo img {
+  max-width: 100%;
+  height: auto;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  align-items: center;
+  justify-content: center;
+}
+
+h2 {
+  margin-bottom: 2%;
+}
+
+
+.field {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  min-width: 300px;
+  max-width: 420px;
+}
+
+.arrow{
+  position: absolute;
+  background-color: white;
+  border: none;
+}
+
+.error {
+  margin-top: 2%;
+  font-size: 1.2em;
+  color: #ba1a1a;
+}
+
+
+@media (max-width: 768px) {
+  #login {
+    height: 40%;
+    justify-content: space-around;
+  }
+
+  .arrow {
+    top: 0;
+  }
+
+  svg {
+    height: 80px;
+    width: 80px;
+  }
+
+  h2 {
+    margin-bottom: 10%;
+  }
+
+  .login-button {
+    margin-top: 8%;
+  }
+
+  .error {
+    font-size: 1em;
+    color: #ba1a1a;
+  }
+}

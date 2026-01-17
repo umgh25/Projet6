@@ -1,0 +1,48 @@
+<div id="profile">
+  <h2>Profil utilisateur</h2>
+  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline" class="field">
+      <mat-label>Username</mat-label>
+      <input matInput type="text" formControlName="userName">
+      @if(!profileForm.get('userName')?.valid && profileForm.get('userName')?.touched) {
+        <mat-error>{{formValidationError.getErrorMessage(profileForm,'userName')}}</mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email">
+      @if(!profileForm.get('email')?.valid && profileForm.get('email')?.touched) {
+        <mat-error>{{formValidationError.getErrorMessage(profileForm,'email')}}</mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Mot de passe</mat-label>
+      <input matInput type="password" formControlName="password">
+      @if(!profileForm.get('password')?.valid && profileForm.get('password')?.touched) {
+        <mat-error>{{formValidationError.getErrorMessage(profileForm,'password')}}</mat-error>
+      }
+    </mat-form-field>
+    <div class="button-container">
+      <button type="submit" mat-raised-button color="primary">Sauvegarder</button>
+    </div>
+  </form>
+  <hr>
+  <h2>Abonnements</h2>
+  <div class="topics-container">
+    @for(topic of userSubscribedTopics$|async; track topic){
+      <mat-card class="card">
+        <mat-card-content class="content">
+          <div class="title">{{topic.title}}</div>
+          <div class="content">
+            <p>{{topic.description}}</p>
+          </div>
+          <div class="button-container">
+            <button id="button" type="button" mat-raised-button (click)="topicUnSubscribe(topic.id)">Se désabonner</button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    } @empty {
+      <div class="info-message">Vous n'avez aucun abonnement pour le moment.</div>
+    }
+  </div>
+</div>

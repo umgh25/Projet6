@@ -1,0 +1,45 @@
+<button class="arrow" (click)="goBack()"><svg class="arrow" xmlns="http://www.w3.org/2000/svg" height="100px" viewBox="0 -960 960 960" width="100px" fill="#1f1f1f"><path d="M258.62-464.62 502-222l-22 22-280-280 280-280 22 22-243.38 242.62H760v30.76H258.62Z"/></svg></button>
+<div id="login">
+  @if(post$|async; as post) {
+    <div class="post-detail">
+      <div class="title">
+        <h2>{{post.title}}</h2>
+      </div>
+      <div class="post-info">
+        <div>{{post.createdAt | date:'dd-MM-yyyy'}} </div>
+        <div>{{post.author}}</div>
+        <div>{{post.topic}}</div>
+      </div>
+      <div class="content">
+        <p>{{post.content}}</p>
+      </div>
+      <hr>
+      <div class="comments-container">
+        <h3>Commentaires</h3>
+        @if(post.comments; as comments) {
+          @for (comment of comments; track $index) {
+            <div class="comment">
+              <div class="author">{{comment.author}}</div>
+              <mat-card class="card">
+                <mat-card-content>
+                  <p>{{comment.content}}</p>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          } @empty {
+            <p>Aucun commentaire pour le moment</p>
+          }
+        }
+        <form [formGroup]="commentForm" (ngSubmit)="onSubmit()">
+          <mat-form-field appearance="outline">
+            <mat-label>Ecrivez ici votre commentaire</mat-label>
+            <textarea matInput cols="30" rows="5" formControlName="content"></textarea>
+            @if(!commentForm.get('content')?.valid && commentForm.get('content')?.touched){
+              <mat-error>{{formValidationService.getErrorMessage(commentForm,'content')}}</mat-error>
+            }
+          </mat-form-field>
+          <button class="send-button" type="submit"><svg class="send-icon" xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#7763C5"><path d="M120-160v-640l760 320-760 320Zm60-93 544-227-544-230v168l242 62-242 60v167Zm0 0v-457 457Z"/></svg></button>
+        </form>
+      </div>
+    </div>
+  }

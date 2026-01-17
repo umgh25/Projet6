@@ -1,0 +1,120 @@
+.post-detail {
+  width: 80%;
+  height: auto;
+  margin: 2% auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.title {
+  display: flex;
+  justify-content: space-around;
+}
+
+.post-info {
+  display: flex;
+  justify-content: flex-start;
+  gap: 50px;
+}
+
+hr {
+  margin-top: 2%;
+  width: 100%;
+}
+
+h3 {
+  font-weight: 300;
+}
+
+.comments-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.comment {
+  width: 100%;
+  margin-top: 2%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.card {
+  flex: 0 1 50%;
+  min-height: 100px;
+}
+
+form {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 2%;
+}
+
+button {
+  background-color: white;
+  border: none;
+}
+
+mat-form-field {
+  flex: 0 1 900px;
+  margin-left: 50px;
+  align-self: flex-end;
+}
+
+.send-button {
+  position: relative;
+  right: -50px;
+}
+
+.send-icon {
+  transform: rotate(-45deg);
+}
+
+.arrow{
+  margin-top: 1%;
+  position: absolute;
+}
+
+@media (max-width: 768px) {
+  .post-detail {
+    align-items: center;
+  }
+
+  .comment {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .card {
+    margin-top: 2%;
+    width: 100%;
+  }
+
+  mat-form-field {
+    flex: 1 1 auto;
+    margin: 0;
+  }
+
+  form {
+    display: flex;
+    margin-top: 4%;
+  }
+
+  .send-button {
+    position: relative;
+    right: -20px;
+  }
+
+  .arrow svg {
+    height: 80px;
+    width: 80px;
+  }
+
+  .content {
+    width: 100%;
+  }
+}
