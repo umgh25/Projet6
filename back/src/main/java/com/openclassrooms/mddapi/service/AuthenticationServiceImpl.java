@@ -6,16 +6,32 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementation of the authentication service.
+ * Handles user authentication using Spring Security's AuthenticationManager.
+ */
 @Slf4j
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final AuthenticationManager authenticationManager;
 
+    /**
+     * Constructor for AuthenticationServiceImpl.
+     *
+     * @param authenticationManager Spring Security's authentication manager
+     */
     public AuthenticationServiceImpl(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
 
+    /**
+     * Authenticates a user with email and password.
+     *
+     * @param email User's email address
+     * @param password User's password
+     * @return Authentication object containing authentication details
+     */
     @Override
     public Authentication authenticate(String email, String password) {
 

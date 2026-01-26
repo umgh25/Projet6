@@ -11,6 +11,10 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Implementation of the comment service.
+ * Handles comment-related business logic including creation and retrieval.
+ */
 @Slf4j
 @Service
 public class CommentServiceImpl implements CommentService  {
@@ -20,6 +24,14 @@ public class CommentServiceImpl implements CommentService  {
     private final PostService postService;
     private final UserService userService;
 
+    /**
+     * Constructor for CommentServiceImpl.
+     *
+     * @param commentRepository Repository for comment data access
+     * @param commentMapper Mapper for converting between Comment and CommentDto
+     * @param postService Service for managing posts
+     * @param userService Service for managing users
+     */
     public CommentServiceImpl(CommentRepository commentRepository, CommentMapper commentMapper, PostService postService, UserService userService) {
         this.commentRepository = commentRepository;
         this.commentMapper = commentMapper;

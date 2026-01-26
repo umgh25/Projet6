@@ -21,6 +21,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Controller managing post-related endpoints.
+ * Provides functionalities for creating, viewing, and listing posts.
+ */
 @Slf4j
 @RestController
 @RequestMapping("api/post")
@@ -28,10 +32,22 @@ public class PostController {
 
     private final PostService postService;
 
+    /**
+     * Constructor for PostController.
+     *
+     * @param postService Service for managing posts
+     */
     public PostController(PostService postService) {
         this.postService = postService;
     }
 
+    /**
+     * Retrieves a post by its identifier with its comments.
+     *
+     * @param id Post identifier
+     * @return PostWithCommentsDto containing the post and its comments
+     * @throws ResourceNotFoundException If the post is not found
+     */
     @Operation(summary = "Get post", description = "Return a post by its id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", content = {@Content(mediaType = "application/json",
@@ -49,6 +65,13 @@ public class PostController {
         return postDto;
     }
 
+    /**
+     * Retrieves all posts from topics the user is subscribed to.
+     * Posts are sorted from newest to oldest.
+     *
+     * @return List of posts from subscribed topics
+     * @throws ResourceNotFoundException If the user is not found
+     */
     @Operation(summary = "Get posts", description = "Return all messages matching the topics the user is subscribed to, ordered from newest to oldest")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", content = {@Content(mediaType = "application/json",
@@ -66,6 +89,13 @@ public class PostController {
     }
 
 
+    /**
+     * Creates a new post.
+     *
+     * @param newPost New post data to create
+     * @return ResponseEntity with status 201 (Created)
+     * @throws ResourceNotFoundException If the topic or user is not found
+     */
     @Operation(summary = "create post", description = "Create a new post")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", content = @Content),

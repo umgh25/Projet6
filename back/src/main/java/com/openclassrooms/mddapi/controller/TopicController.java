@@ -20,6 +20,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Controller managing topic-related endpoints.
+ * Provides functionalities for listing topics, subscribing, and unsubscribing from topics.
+ */
 @Slf4j
 @RestController
 @RequestMapping("api/topic")
@@ -27,10 +31,21 @@ public class TopicController {
 
     private final TopicService topicService;
 
+    /**
+     * Constructor for TopicController.
+     *
+     * @param topicService Service for managing topics
+     */
     public TopicController(TopicService topicService) {
         this.topicService = topicService;
     }
 
+    /**
+     * Retrieves all topics with the user's subscription status.
+     *
+     * @return List of topics with subscription status
+     * @throws ResourceNotFoundException If the user is not found
+     */
     @Operation(summary = "Get topics", description = "Returns all topics with the precision of whether the user has subscribed to them or not")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", content = {@Content(mediaType = "application/json",
@@ -45,6 +60,11 @@ public class TopicController {
         return this.topicService.findAllTopicsWithSubscriptionStatus();
     }
 
+    /**
+     * Retrieves all available topics.
+     *
+     * @return List of all topics
+     */
     @Operation(summary = "Get topics", description = "Return all topics")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", content = {@Content(mediaType = "application/json",
@@ -57,6 +77,14 @@ public class TopicController {
     }
 
 
+    /**
+     * Subscribes the current user to a topic.
+     *
+     * @param topicId Topic identifier
+     * @return ResponseEntity with status 200
+     * @throws ResourceNotFoundException If the user or topic is not found
+     * @throws BadRequestException If the user is already subscribed
+     */
     @Operation(summary = "Subscribe to a topic", description = "Records a user's subscription to a topic")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", content = {@Content}),
@@ -74,6 +102,14 @@ public class TopicController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Unsubscribes the current user from a topic.
+     *
+     * @param topicId Topic identifier
+     * @return ResponseEntity with status 200
+     * @throws ResourceNotFoundException If the user or topic is not found
+     * @throws BadRequestException If the user is not subscribed
+     */
     @Operation(summary = "Unsubscribe to a topic", description = "Records a user's unsubscription from a topic")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", content = {@Content}),
@@ -91,6 +127,12 @@ public class TopicController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Retrieves all topics that the user is subscribed to.
+     *
+     * @return List of subscribed topics
+     * @throws ResourceNotFoundException If the user is not found
+     */
     @Operation(summary = "Get topics", description = "Returns all topics a user is subscribed to")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", content = {@Content(mediaType = "application/json",

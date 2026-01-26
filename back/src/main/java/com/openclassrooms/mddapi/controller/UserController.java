@@ -17,6 +17,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Controller managing user-related endpoints.
+ * Provides functionalities for updating user information.
+ */
 @RestController
 @Slf4j
 @RequestMapping("/api/user")
@@ -24,10 +28,23 @@ public class UserController {
 
     private final UserService userService;
 
+    /**
+     * Constructor for UserController.
+     *
+     * @param userService Service for managing users
+     */
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
+    /**
+     * Updates the currently authenticated user's information.
+     *
+     * @param user User data to update
+     * @return ResponseEntity with status 200
+     * @throws ResourceNotFoundException If the user is not found
+     * @throws UserAlreadyRegisteredException If the email or username is already in use
+     */
     @Operation(summary = "Update user", description = "Update user information")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", content = @Content),
