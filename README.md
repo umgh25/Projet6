@@ -33,7 +33,7 @@ npm install -g @angular/cli@14
 ### Étape 1 : Cloner le projet
 
 ```bash
-git clone <url-du-repository>
+git clone <lien du repo>
 cd Projet6
 ```
 
