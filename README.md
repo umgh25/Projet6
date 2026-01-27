@@ -1,155 +1,185 @@
 # MDD (Monde De Dev)
 
-MDD est un réseau social pour les développeurs. Il permet aux développeurs de s'abonner à des thématiques, et depuis leur tableau de bord d'accéder aux posts liés aux thématiques auxquelles ils sont abonnés. Ils peuvent également créer des posts sur les thématiques de leur choix et laisser des commentaires sous les différents posts. Le backend de l'application est développé en JAVA avec Spring Boot et le frontend avec Angular.
+Application web Full-Stack permettant aux développeurs de s'abonner à des thématiques, consulter et créer des posts, et interagir via des commentaires.
 
-## Utiliser MDD
+## 🔧 Prérequis
 
-Pour utiliser MDD, clonez le projet et suivez les étapes ci-dessous :
+Avant de commencer, assurez-vous d'avoir installé :
 
-## BACK-END
+- **Java 17** ([Télécharger](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html))
+- **Maven 3.6+** ([Télécharger](https://maven.apache.org/download.cgi))
+- **MySQL 8.0+** ([Télécharger](https://dev.mysql.com/downloads/mysql/))
+- **Node.js 18.x+** et **npm 9.x+** ([Télécharger](https://nodejs.org/))
+- **Angular CLI 17.3.0** (installé globalement)
 
-### Prérequis
-- Java 17
-- MySQL 8.x.x
-- IDE comme IntelliJ IDEA ou Eclipse
-- Maven 3.x.x
-
-### Base de données :
-Après avoir installé MySQL et configuré votre nom d'utilisateur et mot de passe, assurez-vous que votre serveur de base de données est actif.
-
-La base de données sera créée automatiquement au lancement du backend et des données de test y seront insérées.
-
-Vous pouvez utiliser les trois utilisateurs suivants ou en créer de nouveaux :
-
-- **Email** : `john@gmail.com`  
-  **Mot de passe** : `Test!1234`
-
-- **Email** : `alice@gmail.com`  
-  **Mot de passe** : `Test!1234`
-
-- **Email** : `bob@gmail.com`  
-  **Mot de passe** : `Test!1234`
-
-### Configuration du projet :
-Ouvrez le projet dans votre IDE. Ouvrez le fichier [application.properties](back/src/main/resources/application.properties) et éditez les lignes suivantes :
-
-```properties
-# JWT secret key
-jwt.secret=Your256BitSecretHere
-```
-⚠️ Utilisez une clé de 256 bits, vous pouvez utiliser un générateur de clé en ligne pour cela.
-
-```properties
-# Database
-spring.datasource.url=jdbc:mysql://localhost:3306/mdd?createDatabaseIfNotExist=true
-```
-⚠️ Changez le port MySQL s'il n'est pas 3306.
-
-### Lancer le projet
-
-Dans votre terminal, allez dans le dossier "back" et suivez les instructions :
-
-**Définissez les variables d'environnement avec ces commandes :**
+### Vérifier les installations
 
 ```bash
+java -version          # Doit afficher Java 17
+mvn -version           # Doit afficher Maven 3.6+
+mysql --version        # Doit afficher MySQL 8.0+
+node -v                # Doit afficher v18.x ou supérieur
+npm -v                 # Doit afficher 9.x ou supérieur
+ng version             # Doit afficher Angular CLI 17.3.0
+```
+
+Si Angular CLI n'est pas installé :
+```bash
+npm install -g @angular/cli@17.3.0
+```
+
+## 🚀 Installation et Lancement
+
+### Étape 1 : Cloner le projet
+
+```bash
+git clone <lien du repo>
+cd Projet6
+```
+
+### Étape 2 : Configuration de la base de données
+
+1. Démarrez le serveur MySQL
+2. La base de données `mdd` sera créée automatiquement au premier lancement
+3. Des données de test seront insérées automatiquement
+
+### Étape 3 : Backend (Spring Boot)
+
+#### 3.1 Configurer les variables d'environnement
+
+**Windows PowerShell :**
+```powershell
+cd back
 $env:DB_URL="jdbc:mysql://localhost:3306/mdd?createDatabaseIfNotExist=true"
-$env:DB_USERNAME="your_username"
-$env:DB_PASSWORD="your_password"
-$env:JWT_SECRET="Your256BitSecretHere"
+$env:DB_USERNAME="root"
+$env:DB_PASSWORD="rootroot"
+$env:JWT_SECRET="404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970"
 $env:JPA_DDL_AUTO="update"
 $env:SHOW_SQL="false"
 ```
-⚠️ Remplacez `your_username` par votre nom d'utilisateur de base de données et `your_password` par votre mot de passe.
 
-**Lancez l'application avec ces commandes :**
+**Linux/macOS :**
+```bash
+cd back
+export DB_URL="jdbc:mysql://localhost:3306/mdd?createDatabaseIfNotExist=true"
+export DB_USERNAME="root"
+export DB_PASSWORD="rootroot"
+export JWT_SECRET="404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970"
+export JPA_DDL_AUTO="update"
+export SHOW_SQL="false"
+```
+
+> ⚠️ **Important :** 
+> - Remplacez `root` et `rootroot` par vos identifiants MySQL
+> - Le `JWT_SECRET` doit être une clé de 256 bits (64 caractères hexadécimaux)
+> - Si votre MySQL utilise un autre port, modifiez `3306` dans `DB_URL`
+
+#### 3.2 Démarrer l'application
 
 ```bash
 mvn clean install
-java -jar target/mdd-api-0.0.1-SNAPSHOT.jar
-```
-
-Ou simplement :
-
-```bash
 mvn spring-boot:run
 ```
 
-### Documentation API
-
-Après avoir lancé l'application, ouvrez votre navigateur et utilisez le lien suivant :
-
+✅ **Le backend est démarré quand vous voyez :**
 ```
-http://localhost:8080/swagger-ui/index.html
+Started MddApiApplication ...
 ```
 
-Vous pouvez maintenant explorer toutes les routes disponibles de l'API, y compris leurs descriptions, paramètres, et même tester les endpoints directement.
+#### 3.3 Vérifier le démarrage
 
-Pour tester certaines routes, vous devrez fournir un token d'authentification :
+Ouvrir dans le navigateur : http://localhost:8080/swagger-ui/index.html
 
-1. Obtenez-le en utilisant l'endpoint `/api/auth/login` avec les identifiants d'un utilisateur
-2. Cliquez sur le bouton "Authorize" et collez la valeur du token
-3. Vous pouvez maintenant tester les endpoints sécurisés
+### Étape 4 : Frontend (Angular)
 
-## FRONT-END
-
-### Prérequis
-- Node.js 16.x.x ou supérieur
-- Angular CLI 14.x.x
-- IDE comme VS Code ou WebStorm
-
-### Lancer le projet
-
-1. Ouvrez le projet dans votre IDE
-2. Dans votre terminal, placez-vous dans le répertoire "front"
-
-**Installez les dépendances :**
+**Ouvrir un nouveau terminal** et exécuter :
 
 ```bash
+cd front
 npm install
-```
-
-**Lancez le serveur de développement :**
-
-```bash
-ng serve
-```
-
-ou
-
-```bash
 npm start
 ```
 
-**Ouvrez votre navigateur et naviguez vers :**
-
+✅ **Le frontend est démarré quand vous voyez :**
 ```
-http://localhost:4200
-```
-
-L'application se rechargera automatiquement si vous modifiez les fichiers source.
-
-### Build de production
-
-Pour construire le projet pour la production :
-
-```bash
-ng build
+** Angular Live Development Server is listening on localhost:4200 **
+✔ Compiled successfully.
 ```
 
-Les fichiers de build seront stockés dans le répertoire `dist/`.
+#### 4.2 Accéder à l'application
 
-## Technologies utilisées
+Ouvrir dans le navigateur : http://localhost:4200
 
-### Backend
+## 👤 Comptes de test
+
+Trois utilisateurs sont disponibles pour tester l'application :
+
+| Email | Mot de passe |
+|-------|--------------|
+| `john@gmail.com` | `Test!1234` |
+| `alice@gmail.com` | `Test!1234` |
+| `bob@gmail.com` | `Test!1234` |
+
+## 📡 API Documentation
+
+Une fois le backend démarré, accédez à la documentation Swagger :
+
+**URL :** http://localhost:8080/swagger-ui/index.html
+
+### Tester les endpoints sécurisés
+
+1. Utilisez l'endpoint `/api/auth/login` avec un compte de test
+2. Copiez le token JWT retourné
+3. Cliquez sur "Authorize" (🔒 en haut à droite)
+4. Collez le token dans le champ "Value"
+5. Cliquez sur "Authorize" puis "Close"
+6. Vous pouvez maintenant tester tous les endpoints
+
+## 🛠️ Technologies
+
+**Backend :**
 - Java 17
 - Spring Boot 3.2.5
-- Spring Security avec JWT
+- Spring Security + JWT
 - MySQL 8
-- MapStruct pour le mapping d'objets
-- Lombok
-- Swagger/OpenAPI pour la documentation
+- MapStruct 1.6.3
+- Lombok 1.18.32
+- Swagger/OpenAPI 3
+
+**Frontend :**
+- Angular 17.3.0
+- Angular Material 17.3.0
+- TypeScript 5.4.2
+- RxJS 7.8.0
+
+## 📝 Commandes utiles
+
+### Backend
+```bash
+# Compiler sans tests
+mvn clean install -DskipTests
+
+# Lancer les tests
+mvn test
+
+# Créer le JAR
+mvn clean package
+
+# Lancer le JAR
+java -jar target/mdd-api-0.0.1-SNAPSHOT.jar
+```
 
 ### Frontend
-- Angular 14
-- Angular Material pour les composants UI
-- RxJS pour la programmation réactive
+```bash
+# Lancer en mode développement
+npm start
+
+# Lancer les tests
+npm test
+
+# Build de production
+npm run build
+
+# Build avec optimisations
+ng build --configuration production
+```

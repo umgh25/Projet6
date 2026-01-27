@@ -8,6 +8,10 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
+/**
+ * Implementation of the JWT service.
+ * Handles JWT token generation and expiration time retrieval.
+ */
 @Slf4j
 @Service
 public class JwtServiceImpl implements JwtService {
@@ -15,6 +19,12 @@ public class JwtServiceImpl implements JwtService {
     private final JwtEncoder jwtEncoder;
     private final JwtDecoder jwtDecoder;
 
+    /**
+     * Constructor for JwtServiceImpl.
+     *
+     * @param jwtEncoder Encoder for generating JWT tokens
+     * @param jwtDecoder Decoder for parsing JWT tokens
+     */
     public JwtServiceImpl(JwtEncoder jwtEncoder, JwtDecoder jwtDecoder) {
         this.jwtEncoder = jwtEncoder;
         this.jwtDecoder = jwtDecoder;

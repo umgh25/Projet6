@@ -18,6 +18,10 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.List;
 
+/**
+ * Controller managing comment-related endpoints.
+ * Provides functionalities for retrieving and creating comments on posts.
+ */
 @Slf4j
 @RestController
 @RequestMapping("api/comment")
@@ -25,10 +29,21 @@ public class CommentController {
 
     private final CommentService commentService;
 
+    /**
+     * Constructor for CommentController.
+     *
+     * @param commentService Service for managing comments
+     */
     public CommentController(CommentService commentService) {
         this.commentService = commentService;
     }
 
+    /**
+     * Retrieves all comments for a specific post.
+     *
+     * @param id Post identifier
+     * @return ResponseEntity containing the list of comments
+     */
     @Operation(summary = "Get comments", description = "Return all comments left on a post")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", content = {@Content(mediaType = "application/json",
@@ -43,6 +58,13 @@ public class CommentController {
         return new ResponseEntity<>(commentsFound, HttpStatus.OK);
     }
 
+    /**
+     * Saves a new comment for a post.
+     *
+     * @param commentDto Comment data to save
+     * @param principal Currently authenticated user
+     * @return ResponseEntity with status 201 (Created)
+     */
     @Operation(summary = "save comment", description = "Save a new comment for a post")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", content = @Content),
