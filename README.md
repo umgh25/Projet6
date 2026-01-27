@@ -9,8 +9,8 @@ Avant de commencer, assurez-vous d'avoir installé :
 - **Java 17** ([Télécharger](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html))
 - **Maven 3.6+** ([Télécharger](https://maven.apache.org/download.cgi))
 - **MySQL 8.0+** ([Télécharger](https://dev.mysql.com/downloads/mysql/))
-- **Node.js 16.x+** et **npm 8.x+** ([Télécharger](https://nodejs.org/))
-- **Angular CLI 14.x** (installé globalement)
+- **Node.js 18.x+** et **npm 9.x+** ([Télécharger](https://nodejs.org/))
+- **Angular CLI 17.3.0** (installé globalement)
 
 ### Vérifier les installations
 
@@ -18,14 +18,14 @@ Avant de commencer, assurez-vous d'avoir installé :
 java -version          # Doit afficher Java 17
 mvn -version           # Doit afficher Maven 3.6+
 mysql --version        # Doit afficher MySQL 8.0+
-node -v                # Doit afficher v16.x ou supérieur
-npm -v                 # Doit afficher 8.x ou supérieur
-ng version             # Doit afficher Angular CLI 14.x
+node -v                # Doit afficher v18.x ou supérieur
+npm -v                 # Doit afficher 9.x ou supérieur
+ng version             # Doit afficher Angular CLI 17.3.0
 ```
 
 Si Angular CLI n'est pas installé :
 ```bash
-npm install -g @angular/cli@14
+npm install -g @angular/cli@17.3.0
 ```
 
 ## 🚀 Installation et Lancement
@@ -147,10 +147,10 @@ Une fois le backend démarré, accédez à la documentation Swagger :
 - Swagger/OpenAPI 3
 
 **Frontend :**
-- Angular 14
-- Angular Material 14
-- TypeScript 4.7
-- RxJS 7.5
+- Angular 17.3.0
+- Angular Material 17.3.0
+- TypeScript 5.4.2
+- RxJS 7.8.0
 
 ## 📝 Commandes utiles
 
