@@ -18,6 +18,10 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementation of the post service.
+ * Handles post-related business logic including creation, retrieval, and filtering by subscribed topics.
+ */
 @Slf4j
 @Service
 public class PostServiceImpl implements PostService {
@@ -28,6 +32,15 @@ public class PostServiceImpl implements PostService {
     private final PostMapper postMapper;
     private final SubscriptionRepository subscriptionRepository;
 
+    /**
+     * Constructor for PostServiceImpl.
+     *
+     * @param postRepository Repository for post data access
+     * @param userService Service for managing users
+     * @param topicService Service for managing topics
+     * @param postMapper Mapper for converting between Post and PostDto
+     * @param subscriptionRepository Repository for subscription data access
+     */
     public PostServiceImpl(PostRepository postRepository, UserService userService, TopicService topicService, PostMapper postMapper, SubscriptionRepository subscriptionRepository) {
         this.postRepository = postRepository;
         this.userService = userService;
@@ -36,11 +49,24 @@ public class PostServiceImpl implements PostService {
         this.subscriptionRepository = subscriptionRepository;
     }
 
+    /**
+     * Finds a post by its identifier.
+     *
+     * @param postId Post identifier
+     * @return Optional containing the post if found
+     */
     @Override
     public Optional<Post> findPostById(Long postId) {
         return postRepository.findById(postId);
     }
 
+    /**
+     * Finds a post by its identifier and returns it as a DTO with comments.
+     *
+     * @param postId Post identifier
+     * @return PostWithCommentsDto containing the post and its comments
+     * @throws ResourceNotFoundException If the post is not found
+     */
     @Override
     public PostWithCommentsDto findPostDtoById(Long postId) throws ResourceNotFoundException {
         Post post = this.findPostById(postId).orElseThrow(ResourceNotFoundException::new);

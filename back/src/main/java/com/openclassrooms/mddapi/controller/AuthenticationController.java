@@ -26,6 +26,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
 
+/**
+ * Controller managing authentication and authorization endpoints.
+ * Provides login, registration, user information retrieval, and logout functionalities.
+ */
 @Slf4j
 @RestController
 @RequestMapping("api/auth")
@@ -37,6 +41,14 @@ public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
 
+    /**
+     * Constructor for AuthenticationController.
+     *
+     * @param userService Service for managing users
+     * @param jwtService Service for managing JWT tokens
+     * @param tokenBlacklistService Service for managing the token blacklist
+     * @param authenticationService Service for authentication
+     */
     public AuthenticationController(UserService userService, JwtService jwtService, TokenBlacklistService tokenBlacklistService, AuthenticationService authenticationService) {
         this.userService = userService;
         this.jwtService = jwtService;
@@ -44,6 +56,12 @@ public class AuthenticationController {
         this.authenticationService = authenticationService;
     }
 
+    /**
+     * Authenticates a user and generates a JWT token.
+     *
+     * @param loginRequest Login credentials containing username and password
+     * @return ResponseEntity containing the generated JWT token
+     */
     @Operation(summary = "Generate a token", description = "Generate a token when user tries to login if authenticated")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", content = {@Content(mediaType = "application/json",
@@ -64,6 +82,13 @@ public class AuthenticationController {
         return new ResponseEntity<>(token, HttpStatus.OK);
     }
 
+    /**
+     * Registers a new user in the system and generates a JWT token.
+     *
+     * @param registerRequest Registration data containing username, email, and password
+     * @return ResponseEntity containing the generated JWT token
+     * @throws UserAlreadyRegisteredException If the email or username is already taken
+     */
     @Operation(summary = "Register a new user", description = "Register a new user in the database and generate a token for them")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", content = {@Content(mediaType = "application/json",
@@ -85,6 +110,12 @@ public class AuthenticationController {
         return new ResponseEntity<>(token, HttpStatus.OK);
     }
 
+    /**
+     * Retrieves information about the currently authenticated user.
+     *
+     * @return UserDto containing the user's information
+     * @throws ResourceNotFoundException If the user is not found
+     */
     @Operation(summary = "Get user information", description = "Return logged in user information")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", content = {@Content(mediaType = "application/json",
@@ -99,6 +130,12 @@ public class AuthenticationController {
         return  user;
     }
 
+    /**
+     * Checks if an email address is already in use by another user.
+     *
+     * @param userMail The email address to check
+     * @return true if the email is already taken, false otherwise
+     */
     @Operation(summary = "Check if email is already taken", description = "Return true if the email is already taken, otherwise false")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", content = {@Content(mediaType = "application/json",
@@ -110,6 +147,12 @@ public class AuthenticationController {
         return this.userService.isEmailAlreadyTaken(userMail);
     }
 
+    /**
+     * Checks if a username is already in use by another user.
+     *
+     * @param userName The username to check
+     * @return true if the username is already taken, false otherwise
+     */
     @Operation(summary = "Check if email is already taken", description = "Return true if the username is already taken, otherwise false")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", content = {@Content(mediaType = "application/json",
@@ -120,8 +163,13 @@ public class AuthenticationController {
     public Boolean checkIfUserNameAlreadyTaken(@PathVariable String userName){
         return this.userService.isUserNameAlreadyTaken(userName);
     }
-
-    @Operation(summary = "Logout user", description = "Invalidate the JWT token by adding it to the blacklist")
+    /**
+     * Logs out a user by invalidating their JWT token.
+     * The token is added to the blacklist to prevent its reuse.
+     *
+     * @param authorizationHeader Authorization header containing the JWT token
+     * @return ResponseEntity with a confirmation message
+     */    @Operation(summary = "Logout user", description = "Invalidate the JWT token by adding it to the blacklist")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully logged out", content = @Content(mediaType = "application/json",
                     examples = @ExampleObject(value="{\"message\": \"Logged out successfully\"}"))),

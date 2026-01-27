@@ -22,10 +22,25 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final TokenBlacklistService tokenBlacklistService;
 
+    /**
+     * Constructor for JwtAuthenticationFilter.
+     *
+     * @param tokenBlacklistService Service for managing the token blacklist
+     */
     public JwtAuthenticationFilter(TokenBlacklistService tokenBlacklistService) {
         this.tokenBlacklistService = tokenBlacklistService;
     }
 
+    /**
+     * Filters incoming requests to check if JWT tokens are blacklisted.
+     * If a token is blacklisted, returns a 401 Unauthorized response.
+     *
+     * @param request HTTP request
+     * @param response HTTP response
+     * @param filterChain Filter chain to continue processing
+     * @throws ServletException If a servlet error occurs
+     * @throws IOException If an I/O error occurs
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {

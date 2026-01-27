@@ -18,6 +18,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementation of the topic service.
+ * Handles topic-related business logic including retrieval, subscription, and unsubscription.
+ */
 @Slf4j
 @Service
 public class TopicServiceImpl implements TopicService {
@@ -27,6 +31,14 @@ public class TopicServiceImpl implements TopicService {
     private final UserService userService;
     private final TopicMapper topicMapper;
 
+    /**
+     * Constructor for TopicServiceImpl.
+     *
+     * @param topicRepository Repository for topic data access
+     * @param subscriptionRepository Repository for subscription data access
+     * @param userService Service for managing users
+     * @param topicMapper Mapper for converting between Topic and TopicDto
+     */
     public TopicServiceImpl(TopicRepository topicRepository, SubscriptionRepository subscriptionRepository, UserService userService, TopicMapper topicMapper) {
         this.topicRepository = topicRepository;
         this.subscriptionRepository = subscriptionRepository;
@@ -45,6 +57,11 @@ public class TopicServiceImpl implements TopicService {
         return this.topicRepository.findById(topicId);
     }
 
+    /**
+     * Retrieves all available topics.
+     *
+     * @return List of all topics as DTOs
+     */
     @Override
     public List<TopicDto> findAllTopic() {
         return this.topicMapper.asTopicDtos(this.topicRepository.findAll());
@@ -174,6 +191,13 @@ public class TopicServiceImpl implements TopicService {
     }
 
 
+    /**
+     * Retrieves a topic by its identifier.
+     *
+     * @param topicId Topic identifier
+     * @return The topic
+     * @throws ResourceNotFoundException If the topic is not found
+     */
     private Topic getTopicById(Long topicId) throws ResourceNotFoundException {
         return this.topicRepository.findById(topicId).orElseThrow(ResourceNotFoundException::new);
     }
