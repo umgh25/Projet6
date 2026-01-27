@@ -83,7 +83,7 @@ mvn spring-boot:run
 
 ✅ **Le backend est démarré quand vous voyez :**
 ```
-Started MddApiApplication in X.XXX seconds
+Started MddApiApplication ...
 ```
 
 #### 3.3 Vérifier le démarrage
